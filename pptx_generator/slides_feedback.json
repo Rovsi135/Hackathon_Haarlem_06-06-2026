@@ -1,194 +1,47 @@
 {
   "summary": {
-    "total_slides": 20,
-    "total_issues": 36,
-    "has_blocking_issues": true,
-    "blocking_issues": [
-      "Missing required 'cover' block at index 0",
-      "Missing required 'agenda' block",
-      "Missing required 'timetable' block",
-      "Block order does not follow required sequence: cover \u2192 agenda \u2192 kickoff \u2192 theory \u2192 example \u2192 exercise \u2192 wrapup"
-    ]
+    "total_slides": 25,
+    "total_issues": 4,
+    "has_blocking_issues": false,
+    "blocking_issues": []
   },
   "issues": [
     {
-      "slide_index": 1,
+      "slide_index": 4,
       "category": "content",
       "severity": "warning",
-      "field": "split_suggestion",
-      "current_value": "missing",
-      "expected_value": "Must include split_suggestion explaining how to split this 7-bullet slide",
-      "fix_instruction": "Add a split_suggestion field to slide 1 explaining how to split the 7 bullets into 2 slides. Example: 'Split into agenda slide (first 3 time blocks) and detailed timetable slide (all 7 time blocks with activity descriptions).'"
+      "field": "title",
+      "current_value": "What You Will Be Able to Do After Today",
+      "expected_value": "Max 8 words",
+      "fix_instruction": "Shorten the title on slide 4 to 8 words or fewer. Current: 'What You Will Be Able to Do After Today'"
     },
     {
-      "slide_index": 13,
+      "slide_index": 7,
       "category": "content",
       "severity": "warning",
-      "field": "split_suggestion",
-      "current_value": "missing",
-      "expected_value": "Must include split_suggestion explaining how to split this 7-bullet slide",
-      "fix_instruction": "Add a split_suggestion field to slide 13 explaining how to split the 7 bullets into 2 slides. Example: 'Split into two slides: Exercise Setup (bullets 1-4: pairing, task selection, weak prompt step) and Exercise Execution (bullets 5-7: framework rewrite, iteration, reflection).'"
-    },
-    {
-      "slide_index": 0,
-      "category": "style",
-      "severity": "warning",
-      "field": "accent_color",
-      "current_value": "#F48A28",
-      "expected_value": "#3F0576",
-      "fix_instruction": "Slide 0 is a kickoff block. The accent_color should be #3F0576, not #F48A28 (which is for exercise/orange theory blocks). Change accent_color to #3F0576."
-    },
-    {
-      "slide_index": 2,
-      "category": "style",
-      "severity": "warning",
-      "field": "accent_color",
-      "current_value": "#EF4453",
-      "expected_value": "#3F0576",
-      "fix_instruction": "Slide 2 is a kickoff block. The accent_color should be #3F0576, not #EF4453 (which is for debrief blocks). Change accent_color to #3F0576."
-    }
-  ],
-  "auto_fixes": [
-    {
-      "slide_index": 0,
-      "field": "bg_color",
-      "old_value": "#1A0040",
-      "new_value": "#EDE9FF",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'kickoff'"
-    },
-    {
-      "slide_index": 0,
-      "field": "title_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#0D006A",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'kickoff'"
-    },
-    {
-      "slide_index": 1,
-      "field": "bg_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#EDE9FF",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'kickoff'"
-    },
-    {
-      "slide_index": 2,
-      "field": "bg_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#EDE9FF",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'kickoff'"
-    },
-    {
-      "slide_index": 9,
-      "field": "bg_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#E7F9FF",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'example'"
-    },
-    {
-      "slide_index": 10,
-      "field": "bg_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#E7F9FF",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'example'"
-    },
-    {
-      "slide_index": 11,
-      "field": "bg_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#E7F9FF",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'example'"
-    },
-    {
-      "slide_index": 12,
-      "field": "bg_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#E7F9FF",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'example'"
-    },
-    {
-      "slide_index": 13,
-      "field": "bg_color",
-      "old_value": "#3F0576",
-      "new_value": "#FDEBDB",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'exercise'"
-    },
-    {
-      "slide_index": 13,
-      "field": "title_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#0D006A",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'exercise'"
-    },
-    {
-      "slide_index": 14,
-      "field": "bg_color",
-      "old_value": "#3F0576",
-      "new_value": "#FDEBDB",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'exercise'"
-    },
-    {
-      "slide_index": 14,
-      "field": "title_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#0D006A",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'exercise'"
-    },
-    {
-      "slide_index": 15,
-      "field": "bg_color",
-      "old_value": "#3F0576",
-      "new_value": "#FDEBDB",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'exercise'"
-    },
-    {
-      "slide_index": 15,
-      "field": "title_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#0D006A",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'exercise'"
-    },
-    {
-      "slide_index": 16,
-      "field": "bg_color",
-      "old_value": "#3F0576",
-      "new_value": "#FDEBDB",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'exercise'"
-    },
-    {
-      "slide_index": 16,
-      "field": "title_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#0D006A",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'exercise'"
+      "field": "title",
+      "current_value": "What Is a Prompt — And Why Does It Matter?",
+      "expected_value": "Max 8 words",
+      "fix_instruction": "Shorten the title on slide 7 to 8 words or fewer. Current: 'What Is a Prompt — And Why Does It Matter?'"
     },
     {
       "slide_index": 17,
-      "field": "bg_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#EDE9FF",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'wrapup'"
+      "category": "content",
+      "severity": "warning",
+      "field": "title",
+      "current_value": "What We Just Did — Mapping It Back to CRAFT",
+      "expected_value": "Max 8 words",
+      "fix_instruction": "Shorten the title on slide 17 to 8 words or fewer. Current: 'What We Just Did — Mapping It Back to CRAFT'"
     },
     {
-      "slide_index": 18,
-      "field": "bg_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#EDE9FF",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'wrapup'"
-    },
-    {
-      "slide_index": 19,
-      "field": "bg_color",
-      "old_value": "#1A0040",
-      "new_value": "#EDE9FF",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'wrapup'"
-    },
-    {
-      "slide_index": 19,
-      "field": "title_color",
-      "old_value": "#F2F2F2",
-      "new_value": "#0D006A",
-      "reason": "Color did not match BLOCK_COLORS rule for block 'wrapup'"
+      "slide_index": 22,
+      "category": "content",
+      "severity": "warning",
+      "field": "title",
+      "current_value": "What You Can Now Do: Your Five New Skills",
+      "expected_value": "Max 8 words",
+      "fix_instruction": "Shorten the title on slide 22 to 8 words or fewer. Current: 'What You Can Now Do: Your Five New Skills'"
     }
   ],
-  "correction_prompt": "You are the styling LLM for Maverx training decks. You must now correct the slide JSON based on the following validation feedback.\n\n## STRUCTURAL CORRECTIONS REQUIRED\n\n1. **Add missing cover slide at index 0:**\n   - Insert a new slide at the very beginning (index 0) with block: \"cover\"\n   - Title should be the training title: \"Writing Prompts That Actually Work\"\n   - Include 2-3 bullets summarizing the core value proposition\n   - Use layout_key: \"cover\"\n   - Colors: bg_color: \"#1A0040\", title_color: \"#F2F2F2\", accent_color: \"#EF4453\"\n   - Set use_key_takeaway: false, split_required: false\n   - Include complete speaker_notes with all required fields\n   - After adding this, increment all existing slide_index values by 1\n\n2. **Add missing agenda slide:**\n   - After the new cover slide (at index 1), insert an agenda slide with block: \"agenda\"\n   - Title: \"What We Will Cover Today\" or similar\n   - Include 3-5 bullets outlining the main blocks of the training\n   - Use layout_key: \"agenda\"\n   - Colors: bg_color: \"#F2F2F2\", title_color: \"#0D006A\", accent_color: \"#3F0576\"\n   - Set use_key_takeaway: false, split_required: false\n   - Include complete speaker_notes\n   - After adding this, increment all subsequent slide_index values by 1\n\n3. **Add missing timetable slide:**\n   - After the agenda slide (at index 2), insert a timetable slide with block: \"timetable\"\n   - Title: \"Session Timeline\" or similar\n   - Include 6-8 bullets with time blocks in format \"HH:MM \u2013 Activity name (duration)\"\n   - Use layout_key: \"timetable\"\n   - Colors: bg_color: \"#F2F2F2\", title_color: \"#0D006A\", accent_color: \"#3F0576\"\n   - Set use_key_takeaway: false, split_required: false\n   - Include complete speaker_notes\n   - After adding this, increment all subsequent slide_index values by 1\n\n4. **Result of structural changes:**\n   - The deck will now start with: cover (0) \u2192 agenda (1) \u2192 timetable (2) \u2192 kickoff (3-5) \u2192 theory (6-11) \u2192 example (12-15) \u2192 exercise (16-19) \u2192 wrapup (20-22)\n   - All existing slides remain unchanged except their slide_index values increase by 3\n\n## CONTENT CORRECTIONS REQUIRED\n\n5. **Slide currently at index 1 (will become index 4 after structural fixes):**\n   - This slide has split_required: true but is missing split_suggestion field\n   - Add field: \"split_suggestion\": \"Split into two slides: (1) High-level agenda with 3-4 main blocks and timing, (2) Detailed timetable showing all time blocks with specific activities and durations. The current 7 bullets are too dense for a single agenda slide.\"\n\n6. **Slide currently at index 13 (will become index 16 after structural fixes):**\n   - This slide has split_required: true but is missing split_suggestion field\n   - Add field: \"split_suggestion\": \"Split into two slides: (1) Exercise Brief (bullets 1-4: working format, task selection, weak prompt step, initial evaluation), (2) Exercise Framework Application (bullets 5-7: rewriting with 5 elements, iteration loop, comparison reflection). This separates setup from execution.\"\n\n## STYLE CORRECTIONS REQUIRED\n\n7. **Slide currently at index 0 (will become index 3 after structural fixes):**\n   - This is a kickoff block\n   - Change accent_color from \"#F48A28\" to \"#3F0576\"\n   - Reason: Kickoff blocks use purple accent (#3F0576), not orange. Orange is reserved for exercise and theory-orange blocks.\n\n8. **Slide currently at index 2 (will become index 5 after structural fixes):**\n   - This is a kickoff block\n   - Change accent_color from \"#EF4453\" to \"#3F0576\"\n   - Reason: Kickoff blocks use purple accent (#3F0576), not red. Red accent (#EF4453) is reserved for debrief blocks only.\n\n## VERIFICATION CHECKLIST\n\nAfter making all corrections, verify:\n- [ ] Deck has exactly 23 slides (20 original + 3 new structural slides)\n- [ ] slide_index values run 0-22 with no gaps\n- [ ] First slide (index 0) has block: \"cover\"\n- [ ] Block order is: cover \u2192 agenda \u2192 timetable \u2192 kickoff \u2192 theory \u2192 example \u2192 exercise \u2192 wrapup\n- [ ] All kickoff slides (indices 3-5) have accent_color: \"#3F0576\"\n- [ ] Slides at indices 4 and 16 both have split_suggestion fields with meaningful split instructions\n- [ ] All required slide fields are present on new slides: slide_index, block, title, bullets, speaker_notes (with all 5 sub-fields), layout_key, bg_color, title_color, accent_color, use_key_takeaway, split_required\n\nReturn the complete corrected slides_styled.json with all changes applied."
+  "correction_prompt": ""
 }

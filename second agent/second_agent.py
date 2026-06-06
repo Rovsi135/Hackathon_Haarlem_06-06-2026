@@ -705,10 +705,20 @@ def create_intake_chat_session(
 
 def handle_completed_training_spec(training_spec: dict[str, Any]) -> None:
     """
-    Hook for the next pipeline step. Keep this as a no-op so the intake module
-    can still run independently while another module is not wired in yet.
+    Hook for the next pipeline step. Import lazily so the intake module can
+    still be tested without loading the PowerPoint dependencies at startup.
     """
-    return None
+    from pathlib import Path
+    import sys
+
+    root_dir = Path(__file__).resolve().parent.parent
+    if str(root_dir) not in sys.path:
+        sys.path.insert(0, str(root_dir))
+
+    from run_powerpoint_pipeline import run_pipeline_from_intake
+
+    output_path = root_dir / "pptx_generator" / "training_deck.pptx"
+    run_pipeline_from_intake(training_spec, output_path=output_path)
 
 
 def build_questions() -> list[Question]:

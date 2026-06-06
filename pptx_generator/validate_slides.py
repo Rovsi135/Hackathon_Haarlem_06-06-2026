@@ -22,10 +22,6 @@ from style_config import (
 )
 
 load_dotenv(dotenv_path=Path(__file__).parent.parent / ".env")
-client = OpenAI(
-    api_key=os.getenv("OPENROUTER_API_KEY"),
-    base_url="https://openrouter.ai/api/v1",
-)
 
 VALIDATOR_PROMPT = f"""
 You are a strict quality validator for Maverx training presentations.
@@ -260,6 +256,11 @@ def run_rule_checks(slides: list) -> list:
 
 
 def validate_with_llm(slides_json: dict, rule_issues: list) -> dict:
+    client = OpenAI(
+        api_key=os.environ["OPENROUTER_API_KEY"],
+        base_url="https://openrouter.ai/api/v1",
+    )
+
     pre_check_summary = f"""
 The following issues were already found by automated rule checks.
 Do NOT re-report these as new issues. Use them as context when writing the correction_prompt.
