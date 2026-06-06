@@ -92,7 +92,6 @@ function IntakeBlock({ t, step, input, setInput, onSend, busy }) {
           disabled={busy}
         />
         <div className="action-row">
-          <span className="hint">{t("intake.hint")}</span>
           <button type="button" className="primary-button" onClick={submit} disabled={busy || !input.trim()}>
             {t("intake.send")}
           </button>
