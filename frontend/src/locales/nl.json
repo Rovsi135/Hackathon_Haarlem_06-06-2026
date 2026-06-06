@@ -1,49 +1,58 @@
 {
   "app.title": "Maverx AI Training Builder",
+  "app.subtitle": "AI Training Builder",
 
   "nav.getting_started": "Aan de slag",
   "nav.support": "Ondersteuning",
   "nav.settings": "Instellingen",
+  "nav.aria": "Hoofdnavigatie",
+  "sections.aria": "Secties",
 
   "profile.role": "Trainer",
+  "profile.sign_out": "Uitloggen",
 
   "lang.en": "EN",
   "lang.nl": "NL",
+  "language.aria": "Taal",
 
   "cost.label": "Kosten run",
-  "cost.sub": "{tokens} tokens · {model}",
+  "cost.sub": "{tokens} tokens - {model}",
 
-  "stage.title": "Maak van één zin een complete training",
-  "stage.subtitle": "Beantwoord een paar korte vragen en SlideKick bouwt een gestructureerde, bewerkbare PowerPoint in de Maverx-huisstijl — inclusief spreker-notities, pre-bite en post-bite.",
+  "stage.title": "Maak van een zin een complete training",
+  "stage.subtitle": "Beantwoord een paar korte vragen en SlideKick bouwt een gestructureerde, bewerkbare PowerPoint in de Maverx-huisstijl - inclusief spreker-notities, pre-bite en post-bite.",
+  "stage.viewer": "Slideweergave",
 
   "assistant.name": "SlideKick",
+  "assistant.aria": "SlideKick-assistent",
+  "assistant.conversation": "Gesprek",
   "assistant.intro": "Hoi, ik ben SlideKick. Ik stel een paar korte vragen zodat de slides aansluiten op je onderwerp, doelgroep, tijd en leerdoel.",
 
-  "phase.intake": "Intake · vraag {step} van {total}",
+  "phase.intake": "Intake - vraag {step} van {total}",
   "phase.outline_path": "Kies hoe we de outline maken",
   "phase.outline_review": "Bekijk de voorgestelde outline",
-  "phase.block_proposal": "Blok {step} van {total} · voorstel",
-  "phase.block_generating": "Blok {step} van {total} wordt gebouwd…",
+  "phase.block_proposal": "Blok {step} van {total} - voorstel",
+  "phase.block_generating": "Blok {step} van {total} wordt gebouwd...",
   "phase.review": "Bekijk je deck",
   "phase.done": "Je training is klaar",
 
   "intake.question.0.title": "Wat is het onderwerp of de vaardigheid die getraind wordt?",
-  "intake.question.0.help": "Wees specifiek — bijv. \"Prompt engineering voor marketing\", niet alleen \"AI\".",
+  "intake.question.0.help": "Wees specifiek - bijv. \"Prompt engineering voor marketing\", niet alleen \"AI\".",
   "intake.question.1.title": "Wie is de doelgroep?",
-  "intake.question.1.help": "Noem een concrete rol of team — bijv. \"Marketingteam\", \"HR-managers\".",
+  "intake.question.1.help": "Noem een concrete rol of team - bijv. \"Marketingteam\", \"HR-managers\".",
   "intake.question.2.title": "Wat is het kennisniveau van de deelnemers?",
   "intake.question.2.help": "Beginner, gemiddeld of gevorderd.",
   "intake.question.3.title": "Hoe lang duurt de training?",
   "intake.question.3.help": "Bijvoorbeeld: 90 minuten, 3 uur, halve dag.",
   "intake.question.4.title": "Wat is het belangrijkste leerdoel?",
-  "intake.question.4.help": "Maak het meetbaar — \"Aan het eind kunnen deelnemers …\".",
+  "intake.question.4.help": "Maak het meetbaar - \"Aan het eind kunnen deelnemers ...\".",
 
-  "intake.placeholder": "Typ je antwoord…",
+  "intake.placeholder": "Typ je antwoord...",
   "intake.level.beginner": "Beginner",
   "intake.level.intermediate": "Gemiddeld",
   "intake.level.advanced": "Gevorderd",
   "intake.send": "Verstuur",
-  "intake.hint": "Druk op Enter om te versturen · Shift+Enter voor een nieuwe regel",
+  "intake.back": "Ga terug",
+  "intake.hint": "Druk op Enter om te versturen - Shift+Enter voor een nieuwe regel",
 
   "intake.option.supply_outline": "Ik lever mijn eigen outline aan",
   "intake.option.supply_outline.desc": "Plak of typ je trainingsstructuur en SlideKick bouwt erop voort.",
@@ -52,7 +61,7 @@
 
   "chip.prompt_engineering": "Prompt Engineering",
   "chip.ai_literacy": "AI-geletterdheid",
-  "chip.ai_productivity": "AI voor Productiviteit",
+  "chip.ai_productivity": "AI voor productiviteit",
   "chip.responsible_ai": "Verantwoorde AI",
 
   "outline.title": "Voorgestelde outline",
@@ -60,6 +69,8 @@
   "outline.approve": "Outline goedkeuren",
   "outline.regenerate": "Opnieuw genereren",
   "outline.estimate": "~{count} slides",
+  "status.pending": "In wachtrij",
+  "status.done": "Klaar",
 
   "proposal.title": "Zo ga ik dit blok bouwen",
   "proposal.slides": "{count} slides",
@@ -67,12 +78,23 @@
   "proposal.approve": "Bouw dit blok",
   "proposal.adjust": "Aanpassen",
 
-  "generating.label": "Slides genereren voor {block}…",
+  "generating.label": "Slides genereren voor {block}...",
 
   "review.title": "Bekijk je deck",
-  "review.subtitle": "Controleer de betrouwbaarheidsindicator per slide — lagere scores verdienen extra aandacht voor je presenteert.",
+  "review.subtitle": "Controleer de betrouwbaarheidsindicator per slide - lagere scores verdienen extra aandacht voor je presenteert.",
   "action.generate_deck": "Genereer trainingsdeck",
   "review.regenerate_slide": "Slide opnieuw genereren",
+
+  "slide.aria": "Slide {number}: {title}",
+  "slide.count.one": "{count} slide",
+  "slide.count.other": "{count} slides",
+  "filmstrip.aria": "Slides",
+  "layout.title_slide": "Titelslide",
+  "layout.agenda": "Agenda",
+  "layout.content": "Inhoud",
+  "layout.two_col": "Twee kolommen",
+  "layout.quote": "Quote",
+  "layout.exercise": "Oefening",
 
   "confidence.label": "Betrouwbaarheid",
   "confidence.high": "Hoge betrouwbaarheid",
@@ -88,7 +110,7 @@
   "notes.debrief": "Debrief & samenvatting",
 
   "done.title": "Je training is klaar",
-  "done.subtitle": "Een complete, bewerkbare PowerPoint plus pre-bite en post-bite documenten — in het {lang}.",
+  "done.subtitle": "Een complete, bewerkbare PowerPoint plus pre-bite en post-bite documenten - in het {lang}.",
   "done.download": "Download bundel",
   "done.restart": "Start een nieuwe training",
   "bundle.pptx": "Trainingsdeck (.pptx)",
@@ -96,8 +118,13 @@
   "bundle.postbite": "Post-bite (.docx)",
 
   "block.kickoff": "Opening / Kick-off",
+  "block.kickoff.description": "Zet leerdoelen, agenda en een energizer neer om de sessie te openen.",
   "block.theory": "Theorie",
+  "block.theory.description": "Kernconcepten helder uitgelegd voor de doelgroep.",
   "block.example": "Voorbeeld",
+  "block.example.description": "Concrete, herkenbare voorbeelden van de theorie in actie.",
   "block.exercise": "Oefening",
-  "block.wrapup": "Afsluiting"
+  "block.exercise.description": "Actieve toepassing - individueel, in duo's of in groepen.",
+  "block.wrapup": "Afsluiting",
+  "block.wrapup.description": "Belangrijkste inzichten, koppeling naar de praktijk en vervolgstappen."
 }

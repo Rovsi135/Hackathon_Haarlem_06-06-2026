@@ -12,7 +12,7 @@ export default function Sidebar({ t, lang, setLang, cost, user }) {
   ];
 
   return (
-    <aside className="sidebar" role="navigation" aria-label="Main navigation">
+    <aside className="sidebar" role="navigation" aria-label={t("nav.aria")}>
       <div className="brand">
         <div className="brand-symbol" aria-hidden="true">
           <span className="brand-bar brand-bar-purple" />
@@ -21,7 +21,7 @@ export default function Sidebar({ t, lang, setLang, cost, user }) {
         </div>
         <div>
           <div className="brand-wordmark">maverx</div>
-          <div className="brand-subtitle">{t("AI Training Builder")}</div>
+          <div className="brand-subtitle">{t("app.subtitle")}</div>
         </div>
       </div>
 
@@ -35,7 +35,7 @@ export default function Sidebar({ t, lang, setLang, cost, user }) {
             </span>
           </div>
 
-          <div className="lang-switch" role="group" aria-label="Language">
+          <div className="lang-switch" role="group" aria-label={t("language.aria")}>
             {SUPPORTED_LANGS.map((code) => (
               <button
                 key={code}
@@ -50,7 +50,7 @@ export default function Sidebar({ t, lang, setLang, cost, user }) {
           </div>
         </div>
 
-        <nav className="nav-links" aria-label="Sections">
+        <nav className="nav-links" aria-label={t("sections.aria")}>
           {links.map((link) => (
             <a
               key={link.key}
@@ -71,7 +71,7 @@ export default function Sidebar({ t, lang, setLang, cost, user }) {
           <div className="profile-copy">
             <div className="profile-name">{profile.name}</div>
           </div>
-          <button className="logout-button" type="button" aria-label="Sign out" />
+          <button className="logout-button" type="button" aria-label={t("profile.sign_out")} />
         </div>
       </div>
     </aside>

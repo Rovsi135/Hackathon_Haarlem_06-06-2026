@@ -13,6 +13,90 @@ const MOCK_MODEL = "claude-sonnet-4-6";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const COPY = {
+  en: {
+    "validation.topic_short": "That's a bit short - name a concrete skill or domain.",
+    "validation.topic_vague":
+      'That is quite broad. What is the specific skill? For example: "prompt engineering for marketing".',
+    "validation.audience_short": "Who exactly is this for? Name a role, team or group.",
+    "validation.audience_vague":
+      'That is a little vague. Which team or role? For example: "marketing team" or "HR managers".',
+    "validation.level": "Please choose one of: beginner, intermediate, or advanced.",
+    "validation.duration": "How long is the session? For example: 90 minutes, 3 hours, or half day.",
+    "validation.duration_short": "That seems short for a full training - try at least 30 minutes.",
+    "validation.duration_long": "For a single training, keep it under 8 hours.",
+    "validation.objective_short": 'Make it a full outcome - "By the end, participants can ...".',
+    "validation.objective_action":
+      "Add a concrete action - what can participants do afterwards? (e.g. create, apply, evaluate).",
+    "outline.kickoff.description": "Set learning goals, agenda and an energizer to open the session.",
+    "outline.theory.description": "Core concepts explained clearly for the target audience.",
+    "outline.example.description": "Concrete, recognizable illustrations of the theory in action.",
+    "outline.exercise.description": "Active application - individual, pair or group work.",
+    "outline.wrapup.description": "Key takeaways, link to practice and next steps.",
+    "proposal.summary": 'I will create {count} slides for "{title}" covering {points} and more.',
+    "proposal.points_join": ", ",
+    "slide.agenda": "Today's agenda",
+    "slide.prior": "What you already know",
+    "slide.theory_intro": "What is {topic}?",
+    "slide.principle": "Key principle {index} of {topic}",
+    "slide.example_intro": "{topic} in practice",
+    "slide.good_weak": "Good vs. weak approach",
+    "slide.exercise": "Exercise {index}: try it yourself",
+    "slide.takeaways": "Key takeaways",
+    "slide.stick": "Make it stick",
+    "slide.thank_you": "Thank you",
+    "notes.aim": "Help {audience} grasp this part of {topic}.",
+    "notes.instructions":
+      "Open with the question on the slide, let two or three people respond, then summarize before moving on.",
+    "notes.debrief": "In one line: this is the part you will actually use on Monday.",
+  },
+  nl: {
+    "validation.topic_short": "Dat is wat kort - noem een concrete vaardigheid of domein.",
+    "validation.topic_vague":
+      'Dat is vrij breed. Wat is de specifieke vaardigheid? Bijvoorbeeld: "prompt engineering voor marketing".',
+    "validation.audience_short": "Voor wie is dit precies? Noem een rol, team of groep.",
+    "validation.audience_vague":
+      'Dat is nog wat vaag. Welk team of welke rol? Bijvoorbeeld: "marketingteam" of "HR-managers".',
+    "validation.level": "Kies een van deze opties: beginner, gemiddeld of gevorderd.",
+    "validation.duration": "Hoe lang duurt de sessie? Bijvoorbeeld: 90 minuten, 3 uur of een halve dag.",
+    "validation.duration_short": "Dat lijkt kort voor een volledige training - probeer minimaal 30 minuten.",
+    "validation.duration_long": "Houd een losse training onder de 8 uur.",
+    "validation.objective_short": 'Maak er een volledig resultaat van - "Aan het eind kunnen deelnemers ...".',
+    "validation.objective_action":
+      "Voeg een concrete actie toe - wat kunnen deelnemers daarna doen? (bijv. maken, toepassen, evalueren).",
+    "outline.kickoff.description": "Zet leerdoelen, agenda en een energizer neer om de sessie te openen.",
+    "outline.theory.description": "Kernconcepten helder uitgelegd voor de doelgroep.",
+    "outline.example.description": "Concrete, herkenbare voorbeelden van de theorie in actie.",
+    "outline.exercise.description": "Actieve toepassing - individueel, in duo's of in groepen.",
+    "outline.wrapup.description": "Belangrijkste inzichten, koppeling naar de praktijk en vervolgstappen.",
+    "proposal.summary": 'Ik maak {count} slides voor "{title}" over {points} en meer.',
+    "proposal.points_join": ", ",
+    "slide.agenda": "Agenda van vandaag",
+    "slide.prior": "Wat je al weet",
+    "slide.theory_intro": "Wat is {topic}?",
+    "slide.principle": "Kernprincipe {index} van {topic}",
+    "slide.example_intro": "{topic} in de praktijk",
+    "slide.good_weak": "Sterke vs. zwakke aanpak",
+    "slide.exercise": "Oefening {index}: probeer het zelf",
+    "slide.takeaways": "Belangrijkste inzichten",
+    "slide.stick": "Maak het blijvend",
+    "slide.thank_you": "Dank je wel",
+    "notes.aim": "Help {audience} dit onderdeel van {topic} te begrijpen.",
+    "notes.instructions":
+      "Open met de vraag op de slide, laat twee of drie mensen reageren en vat daarna samen voor je doorgaat.",
+    "notes.debrief": "In een zin: dit is het deel dat je maandag echt gaat gebruiken.",
+  },
+};
+
+function copy(lang, key, params) {
+  const table = COPY[lang] || COPY.en;
+  const template = table[key] ?? COPY.en[key] ?? key;
+  if (!params) return template;
+  return template.replace(/\{(\w+)\}/g, (match, name) =>
+    Object.prototype.hasOwnProperty.call(params, name) ? String(params[name]) : match
+  );
+}
+
 // Rough token accounting so the cost meter shows movement (business req #7).
 // Mirrors OpenRouter's ~$3 / 1M input + $15 / 1M output pricing for Sonnet,
 // blended to a single per-token figure for the demo.
@@ -72,22 +156,38 @@ const ACTION_VERBS = [
   "identify",
   "practice",
 ];
+const ACTION_VERBS_NL = [
+  "toepassen",
+  "maken",
+  "bouwen",
+  "gebruiken",
+  "evalueren",
+  "verbeteren",
+  "schrijven",
+  "ontwerpen",
+  "uitleggen",
+  "analyseren",
+  "vergelijken",
+  "kiezen",
+  "herkennen",
+  "oefenen",
+];
 
 function normalizeKnowledgeLevel(answer) {
   const v = answer.trim().toLowerCase();
   if (["beginner", "beginners", "basic", "new", "none", "no experience"].includes(v))
     return "beginner";
-  if (["intermediate", "some experience", "medium"].includes(v)) return "intermediate";
-  if (["advanced", "expert", "experienced"].includes(v)) return "advanced";
+  if (["intermediate", "some experience", "medium", "gemiddeld", "enige ervaring"].includes(v)) return "intermediate";
+  if (["advanced", "expert", "experienced", "gevorderd", "ervaren"].includes(v)) return "advanced";
   return null;
 }
 
 function parseDurationMinutes(answer) {
   const lowered = answer.trim().toLowerCase();
-  const hourMatch = lowered.match(/(\d+(?:\.\d+)?)\s*(hours?|hrs?|h)\b/);
-  const minuteMatch = lowered.match(/(\d+)\s*(minutes?|mins?|m)\b/);
-  if (lowered.includes("half day") || lowered.includes("half-day")) return 240;
-  if (lowered.includes("full day") || lowered.includes("full-day")) return 480;
+  const hourMatch = lowered.match(/(\d+(?:\.\d+)?)\s*(hours?|hrs?|uur|uren|h)\b/);
+  const minuteMatch = lowered.match(/(\d+)\s*(minutes?|mins?|minuten|m)\b/);
+  if (lowered.includes("half day") || lowered.includes("half-day") || lowered.includes("halve dag")) return 240;
+  if (lowered.includes("full day") || lowered.includes("full-day") || lowered.includes("hele dag")) return 480;
   if (hourMatch) return Math.round(parseFloat(hourMatch[1]) * 60);
   if (minuteMatch) return parseInt(minuteMatch[1], 10);
   const bare = lowered.match(/^\s*(\d+)\s*$/);
@@ -174,6 +274,51 @@ async function validateIntake({ value, step }) {
   }
 }
 
+async function validateLocalizedIntake({ value, step, lang = "en" }) {
+  await delay(280);
+  const answer = (value || "").trim();
+
+  switch (step) {
+    case 0:
+      if (answer.length < 3) return { valid: false, followUp: copy(lang, "validation.topic_short") };
+      if (VAGUE_TOPICS.has(answer.toLowerCase())) {
+        return { valid: false, followUp: copy(lang, "validation.topic_vague") };
+      }
+      return { valid: true, normalized: answer };
+    case 1:
+      if (answer.length < 4) return { valid: false, followUp: copy(lang, "validation.audience_short") };
+      if (VAGUE_AUDIENCES.has(answer.toLowerCase())) {
+        return { valid: false, followUp: copy(lang, "validation.audience_vague") };
+      }
+      return { valid: true, normalized: answer };
+    case 2: {
+      const level = normalizeKnowledgeLevel(answer);
+      if (!level) return { valid: false, followUp: copy(lang, "validation.level") };
+      return { valid: true, normalized: level };
+    }
+    case 3: {
+      const minutes = parseDurationMinutes(answer);
+      if (minutes == null) return { valid: false, followUp: copy(lang, "validation.duration") };
+      if (minutes < 30) return { valid: false, followUp: copy(lang, "validation.duration_short") };
+      if (minutes > 480) return { valid: false, followUp: copy(lang, "validation.duration_long") };
+      return { valid: true, normalized: minutes };
+    }
+    case 4: {
+      const lowered = answer.toLowerCase();
+      if (answer.split(/\s+/).length < 6) {
+        return { valid: false, followUp: copy(lang, "validation.objective_short") };
+      }
+      const verbs = lang === "nl" ? ACTION_VERBS_NL : ACTION_VERBS;
+      if (!verbs.some((verb) => lowered.includes(verb))) {
+        return { valid: false, followUp: copy(lang, "validation.objective_action") };
+      }
+      return { valid: true, normalized: answer };
+    }
+    default:
+      return { valid: true, normalized: answer };
+  }
+}
+
 // --- outline generation ---------------------------------------------------
 
 function targetSlideCount(minutes) {
@@ -213,7 +358,18 @@ const BLOCK_DESCRIPTIONS = {
   wrapup: "Key takeaways, link to practice and next steps.",
 };
 
-async function generateOutline({ answers }) {
+function localizedBlockTitle(id, lang = "en") {
+  const nl = {
+    kickoff: "Opening / Kick-off",
+    theory: "Theorie",
+    example: "Voorbeeld",
+    exercise: "Oefening",
+    wrapup: "Afsluiting",
+  };
+  return lang === "nl" ? nl[id] || BLOCK_TITLES[id] : BLOCK_TITLES[id];
+}
+
+async function generateOutline({ answers, lang = "en" }) {
   await delay(650);
   const minutes = Number(answers.duration_minutes) || 180;
   const total = targetSlideCount(minutes);
@@ -221,8 +377,8 @@ async function generateOutline({ answers }) {
 
   const outline = BLOCK_ORDER.map((id) => ({
     block_id: id,
-    title: BLOCK_TITLES[id],
-    description: BLOCK_DESCRIPTIONS[id],
+    title: localizedBlockTitle(id, lang),
+    description: copy(lang, `outline.${id}.description`) || BLOCK_DESCRIPTIONS[id],
     slide_count_estimate: counts[id],
     duration_min: Math.round(minutes * BLOCK_WEIGHTS[id]),
   }));
@@ -265,17 +421,57 @@ function keyPointsFor(blockId, answers) {
   return map[blockId] || [];
 }
 
-async function proposeBlock({ answers, outline, blockIndex }) {
+function localizedKeyPointsFor(blockId, answers, lang = "en") {
+  if (lang !== "nl") return keyPointsFor(blockId, answers);
+
+  const topic = answers.topic || "het onderwerp";
+  const audience = answers.audience || "deelnemers";
+  const map = {
+    kickoff: [
+      `Waarom ${topic} belangrijk is voor ${audience}`,
+      "Leerdoelen en agenda",
+      "Korte warming-up om voorkennis op te halen",
+    ],
+    theory: [
+      `Kernprincipes van ${topic}`,
+      "Het mentale model om te onthouden",
+      "Veelvoorkomende valkuilen en hoe je ze voorkomt",
+    ],
+    example: [
+      `Een herkenbaar ${topic}-scenario uit het dagelijkse werk van ${audience}`,
+      "Doorloop van een sterke vs. zwakke aanpak",
+      "Wat het verschil maakte",
+    ],
+    exercise: [
+      `Hands-on taak waarin ${topic} wordt toegepast`,
+      "Werk in duo's en vergelijk daarna de resultaten",
+      "Gezamenlijke debrief over wat werkte",
+    ],
+    wrapup: [
+      "Samenvatting van de drie punten die moeten landen",
+      "Koppeling naar het echte werk van deelnemers",
+      "Vervolgstappen en de post-bite opdracht",
+    ],
+  };
+  return map[blockId] || [];
+}
+
+async function proposeBlock({ answers, outline, blockIndex, lang = "en" }) {
   await delay(420);
   const block = outline[blockIndex];
-  const points = keyPointsFor(block.block_id, answers);
+  const points = localizedKeyPointsFor(block.block_id, answers, lang);
+  const summaryPoints = points
+    .map((p) => p.toLowerCase())
+    .slice(0, 2)
+    .join(copy(lang, "proposal.points_join"));
   return {
     proposal: {
       block_id: block.block_id,
-      summary: `I'll create ${block.slide_count_estimate} slides for "${block.title}" covering ${points
-        .map((p) => p.toLowerCase())
-        .slice(0, 2)
-        .join(", ")} and more.`,
+      summary: copy(lang, "proposal.summary", {
+        count: block.slide_count_estimate,
+        title: block.title,
+        points: summaryPoints,
+      }),
       slide_count: block.slide_count_estimate,
       key_points: points,
     },
@@ -382,11 +578,92 @@ function buildSlide(blockId, slideNumber, indexInBlock, slideCount, answers, blo
   };
 }
 
+function localizedBuildSlide(blockId, slideNumber, indexInBlock, slideCount, answers, blockDurationMin, lang = "en") {
+  if (lang !== "nl") return buildSlide(blockId, slideNumber, indexInBlock, slideCount, answers, blockDurationMin);
+
+  const topic = answers.topic || "het onderwerp";
+  const audience = answers.audience || "het team";
+  const objective = answers.learning_objective || "de vaardigheid toepassen in het dagelijkse werk";
+  const layouts = LAYOUT_BY_BLOCK[blockId];
+  const layout = layouts[indexInBlock % layouts.length];
+
+  const templates = {
+    kickoff: () => ({
+      title: indexInBlock === 0 ? topic : indexInBlock === 1 ? copy(lang, "slide.agenda") : copy(lang, "slide.prior"),
+      bullets:
+        indexInBlock === 0
+          ? [`Een praktische sessie voor ${audience}`, `Doel: ${objective}`]
+          : indexInBlock === 1
+          ? ["Theorie: de kernideeen", "Uitgewerkt voorbeeld", "Hands-on oefening", "Afronding en vervolgstappen"]
+          : ["Waar heb je dit al gebruikt?", "Wat vind je lastig?"],
+    }),
+    theory: () => ({
+      title:
+        indexInBlock === 0
+          ? copy(lang, "slide.theory_intro", { topic })
+          : copy(lang, "slide.principle", { index: indexInBlock, topic }),
+      bullets: [
+        `Een heldere definitie voor ${audience}`,
+        "Waarom het werkt zoals het werkt",
+        "Een valkuil om op te letten",
+      ],
+    }),
+    example: () => ({
+      title: indexInBlock === 0 ? copy(lang, "slide.example_intro", { topic }) : copy(lang, "slide.good_weak"),
+      bullets: [
+        `Een scenario dat ${audience} herkent`,
+        "Stap-voor-stap doorloop",
+        "Wat het verschil maakte",
+      ],
+    }),
+    exercise: () => ({
+      title: copy(lang, "slide.exercise", { index: indexInBlock + 1 }),
+      bullets: [
+        `Pas ${topic} toe op een realistische taak`,
+        "Werk in duo's (10 min)",
+        "Vergelijk resultaten en bespreek",
+      ],
+    }),
+    wrapup: () => ({
+      title:
+        indexInBlock === 0
+          ? copy(lang, "slide.takeaways")
+          : indexInBlock === 1
+          ? copy(lang, "slide.stick")
+          : copy(lang, "slide.thank_you"),
+      bullets:
+        indexInBlock === 0
+          ? ["De drie punten die moeten landen", `Hoe dit bijdraagt aan: ${objective}`]
+          : indexInBlock === 1
+          ? ["Een verandering om deze week te proberen", "Je post-bite opdracht"]
+          : ["Vragen?", "Bronnen om verder te leren"],
+    }),
+  };
+
+  const { title, bullets } = templates[blockId]();
+
+  return {
+    slide_number: slideNumber,
+    layout,
+    title,
+    bullets,
+    module_block: blockId,
+    confidence: confidenceFor(blockId, indexInBlock),
+    speaker_notes: {
+      aim: copy(lang, "notes.aim", { audience, topic }),
+      time: `${Math.max(2, Math.round((Number(blockDurationMin) || 20) / slideCount))} min`,
+      instructions: copy(lang, "notes.instructions"),
+      reflective_question: bullets.slice(0, 3).join(" - "),
+      debrief: copy(lang, "notes.debrief"),
+    },
+  };
+}
+
 // In-memory job store for block generation (simulates async rendering).
 const jobs = new Map();
 let jobCounter = 0;
 
-async function generateBlock({ answers, outline, blockIndex }) {
+async function generateBlock({ answers, outline, blockIndex, lang = "en" }) {
   await delay(120);
   const block = outline[blockIndex];
   const jobId = `job_${++jobCounter}`;
@@ -394,6 +671,7 @@ async function generateBlock({ answers, outline, blockIndex }) {
     answers,
     block,
     blockIndex,
+    lang,
     readyAt: Date.now() + 1400, // slides "ready" after a short delay
   });
   return { job_id: jobId };
@@ -416,7 +694,7 @@ async function getBlockStatus({ job_id }) {
   const slides = [];
   for (let i = 0; i < count; i++) {
     slides.push(
-      buildSlide(job.block.block_id, startNumber + i, i, count, job.answers, job.block.duration_min)
+      localizedBuildSlide(job.block.block_id, startNumber + i, i, count, job.answers, job.block.duration_min, job.lang)
     );
   }
   jobs.delete(job_id);
@@ -466,7 +744,7 @@ export function resetMockCost() {
 export const mockApi = {
   async validateIntake(payload) {
     chargeTokens(payload.value, "validate");
-    return validateIntake(payload);
+    return validateLocalizedIntake(payload);
   },
   async generateOutline(payload) {
     chargeTokens(JSON.stringify(payload.answers), "outline".repeat(40));
