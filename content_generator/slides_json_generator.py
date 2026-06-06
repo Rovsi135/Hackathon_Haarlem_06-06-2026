@@ -13,7 +13,7 @@ client = OpenAI(
 )
 
 # Load validated intake from teammate's script
-with open("validated_input.json", "r") as f:
+with open("validated_input.json", "r", encoding="utf-8") as f:
     intake = json.load(f)
 
 
@@ -71,7 +71,8 @@ Generate all slides following the didactic model. Scale slide count to the durat
 
 response = client.chat.completions.create(
     model="anthropic/claude-sonnet-4-6",
-    max_tokens=4096,
+    #model="openai/gpt-4o-mini",
+    max_tokens=16000,
     messages=[
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_prompt}
@@ -96,7 +97,7 @@ except json.JSONDecodeError as e:
     raise
   
   
-with open("slides_output.json", "w") as f:
+with open("slides_init_text.json", "w", encoding="utf-8") as f:
     json.dump(slides, f, indent=2, ensure_ascii=False)
 
 print(f"Generated {len(slides['slides'])} slides.")
