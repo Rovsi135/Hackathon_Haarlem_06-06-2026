@@ -4,10 +4,9 @@ import { SUPPORTED_LANGS } from "../i18n/index.js";
 /**
  * Sidebar: brand, lower-left navigation, language switch, run-cost meter and profile.
  */
-export default function Sidebar({ t, lang, setLang, cost, user }) {
+export default function Sidebar({ t, lang, setLang, cost, user, styleGuideFiles, setStyleGuideFiles }) {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [files, setFiles] = useState([]);
   const fileInputRef = useRef(null);
   const profile = { ...user, name: "Lucas van Zuiddam", initials: "LV" };
   const links = [
@@ -22,7 +21,7 @@ export default function Sidebar({ t, lang, setLang, cost, user }) {
     const allowed = Array.from(nextFiles).filter((file) =>
       acceptedExtensions.some((extension) => file.name.toLowerCase().endsWith(extension))
     );
-    setFiles((current) => {
+    setStyleGuideFiles((current) => {
       const known = new Set(current.map((file) => `${file.name}-${file.size}`));
       return [
         ...current,
@@ -168,9 +167,9 @@ export default function Sidebar({ t, lang, setLang, cost, user }) {
                           }}
                         />
 
-                        {files.length > 0 && (
+                        {styleGuideFiles.length > 0 && (
                           <div className="uploaded-files" aria-live="polite">
-                            {files.map((file) => (
+                            {styleGuideFiles.map((file) => (
                               <div className="uploaded-file" key={`${file.name}-${file.size}`}>
                                 <span className="uploaded-file-name">{file.name}</span>
                                 <span className="uploaded-file-size">{formatFileSize(file.size)}</span>
