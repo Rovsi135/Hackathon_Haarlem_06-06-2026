@@ -1,0 +1,378 @@
+{
+  "slides": [
+    {
+      "slide_index": 0,
+      "block": "kickoff",
+      "title": "Welcome: Writing Prompts That Actually Work",
+      "bullets": [
+        "Today you will learn to write prompts that save you time on real marketing tasks",
+        "No coding, no technical background needed — just your marketing expertise",
+        "By the end of this session you will leave with prompts you can use tomorrow morning"
+      ],
+      "speaker_notes": {
+        "aim": "Set a welcoming, low-barrier tone and immediately address the fear that AI tools are 'for tech people'.",
+        "time": "5 minutes",
+        "instructions": "Open with a show of hands: who has already tried ChatGPT or a similar tool? Who felt the result was disappointing? Use this to frame the day — the tool is not the problem, the instruction is.",
+        "reflective_question": "Think of the last time you used an AI tool and were frustrated with the output. What did your prompt look like?",
+        "debrief": "Acknowledge that most people write prompts like a Google search. Today we change that habit."
+      }
+    },
+    {
+      "slide_index": 1,
+      "block": "kickoff",
+      "title": "What You Will Be Able to Do After Today",
+      "bullets": [
+        "Write a prompt that produces a usable first draft of a social media post in under 2 minutes",
+        "Brief an AI tool the same way you would brief a junior copywriter",
+        "Diagnose why a prompt gives a bad result and fix it on the spot",
+        "Build a personal prompt library for your top 5 recurring marketing tasks"
+      ],
+      "speaker_notes": {
+        "aim": "Make the learning objectives concrete and personally relevant so participants see immediate value.",
+        "time": "5 minutes",
+        "instructions": "Read each bullet aloud and ask participants to mentally tick which ones feel most relevant to their daily work. Do not rush — let them connect the dots.",
+        "reflective_question": "Which of these four outcomes would save you the most time this week?",
+        "debrief": "Briefly note which outcomes come up most often — this helps you prioritise examples later in the session."
+      }
+    },
+    {
+      "slide_index": 2,
+      "block": "kickoff",
+      "title": "Energizer: The Terrible Brief Game",
+      "bullets": [
+        "Round 1 — Each person writes a one-sentence brief for a colleague to write a birthday card",
+        "Round 2 — The colleague writes the card based only on that brief, no questions allowed",
+        "Round 3 — Share results: where did the output miss the mark and why?",
+        "Key insight: vague input always produces generic output — in people and in AI"
+      ],
+      "speaker_notes": {
+        "aim": "Make the link between brief quality and output quality visceral and memorable before touching any AI tool.",
+        "time": "10 minutes",
+        "instructions": "Give participants 90 seconds to write their brief, 2 minutes to write the card, then 3 minutes to share in pairs. Pull 2-3 examples to the group. Keep it light and fun.",
+        "reflective_question": "What information did you assume your colleague already knew, but they actually needed?",
+        "debrief": "Bridge to the training: AI has the same problem. It cannot read your mind. Everything it needs must be in the prompt."
+      }
+    },
+    {
+      "slide_index": 3,
+      "block": "theory",
+      "title": "What Is a Prompt? (And What It Is Not)",
+      "bullets": [
+        "A prompt is a written instruction you give an AI tool to produce a specific output",
+        "It is NOT a search query — Google guesses your intent, AI executes your instruction literally",
+        "Think of it as a written briefing document, not a keyword",
+        "The AI has no memory of your brand, your audience, or your preferences unless you tell it",
+        "Better prompt = better output, every single time — the model does not improve, your instruction does"
+      ],
+      "speaker_notes": {
+        "aim": "Correct the most common misconception (prompt = search) and establish the mental model of 'written briefing'.",
+        "time": "8 minutes",
+        "instructions": "Show a side-by-side on a whiteboard or flip chart: Google search vs. AI prompt for the same task (e.g. 'Instagram caption running shoes' vs. a full prompt). Let the difference speak for itself.",
+        "reflective_question": "How does your current way of using AI tools compare to writing a proper brief?",
+        "debrief": "Confirm the mental model: from now on, every prompt they write should feel like writing a briefing, not typing a search bar."
+      }
+    },
+    {
+      "slide_index": 4,
+      "block": "theory",
+      "title": "The 5 Building Blocks of an Effective Prompt",
+      "bullets": [
+        "1. ROLE — Tell the AI who it is: 'You are a senior copywriter specialising in B2C fitness brands'",
+        "2. TASK — State exactly what you want: 'Write three Instagram captions of max 150 characters each'",
+        "3. CONTEXT — Give background: 'Our audience is women aged 28-40 who run recreationally'",
+        "4. FORMAT — Specify the output shape: 'Use bullet points / numbered list / table / plain paragraph'",
+        "5. CONSTRAINTS — Set the rules: 'No emojis, avoid clichés like \"unleash your potential\", Dutch tone of voice'"
+      ],
+      "speaker_notes": {
+        "aim": "Give participants a memorable, reusable framework they can apply immediately — RTCFC is the backbone of the whole day.",
+        "time": "12 minutes",
+        "instructions": "Introduce each block one at a time. For each, ask: 'What happens if this is missing?' Let participants predict the consequence before you explain it. Write the acronym RTCFC on a flip chart and leave it visible all day.",
+        "reflective_question": "Which of these five elements do you almost never include when you currently use AI tools?",
+        "debrief": "Most beginners skip Role and Constraints. Emphasise that these two have the biggest impact on tone and relevance."
+      }
+    },
+    {
+      "slide_index": 5,
+      "block": "theory",
+      "title": "Role: How to Brief the AI's Persona",
+      "bullets": [
+        "A role anchors the AI's expertise, tone, and perspective for the entire response",
+        "Weak role: 'You are a marketer' — too vague, produces generic output",
+        "Strong role: 'You are a direct response copywriter with 10 years of experience in Dutch e-commerce, known for concise, conversion-focused copy'",
+        "The role should reflect the expertise gap you want to fill — not just a job title",
+        "You can stack roles: 'You are a strategist AND a native Dutch speaker — always write in Dutch'"
+      ],
+      "speaker_notes": {
+        "aim": "Help participants understand that the Role block is about calibrating expertise and voice, not just labelling the AI.",
+        "time": "8 minutes",
+        "instructions": "Show two outputs side by side: same task, one with a weak role and one with a strong role. Use a real marketing example such as writing a subject line for a promotional email. Let participants judge which is better and why.",
+        "reflective_question": "If you were hiring a freelancer for this task, what would you write in the job description?",
+        "debrief": "The freelancer framing is powerful — encourage participants to use it whenever they are stuck on how to write the Role."
+      }
+    },
+    {
+      "slide_index": 6,
+      "block": "theory",
+      "title": "Context and Constraints: The Details That Change Everything",
+      "bullets": [
+        "Context answers: who is the audience, what is the product, what is the situation, what has already been tried",
+        "Include audience demographics AND psychographics: 'Budget-conscious parents who distrust corporate language'",
+        "Constraints prevent the AI's most common mistakes for your brand: filler phrases, wrong register, off-brand claims",
+        "You can add a 'do not' list: 'Do not use the words innovative, seamless, or game-changing'",
+        "One well-written Context + Constraints block can be reused across dozens of prompts — save it as a template"
+      ],
+      "speaker_notes": {
+        "aim": "Show that Context and Constraints are where marketing expertise translates directly into prompt quality.",
+        "time": "10 minutes",
+        "instructions": "Ask participants to write down three words or phrases their brand never uses. Then ask them to write three the brand always uses. Show how these go directly into the Constraints and Context blocks. This exercise takes 3 minutes and immediately makes the theory tangible.",
+        "reflective_question": "What is the one piece of brand context that, if missing, would make any AI output immediately unusable for you?",
+        "debrief": "Collect 2-3 examples of brand-specific constraints from the room. Validate them and explain why they matter for prompt quality."
+      }
+    },
+    {
+      "slide_index": 7,
+      "block": "theory",
+      "title": "Iteration: Your First Prompt Is a Draft, Not a Demand",
+      "bullets": [
+        "No prompt is perfect on the first try — treat the first output as a conversation starter",
+        "Three most effective follow-up instructions: 'Make it shorter', 'Make the tone more casual', 'Give me 3 alternatives'",
+        "When output is wrong, diagnose before you retry: which of the 5 blocks was missing or unclear?",
+        "Add a 'clarification step': end your prompt with 'Before you write, ask me any questions you need to get this right'",
+        "Keep a running log of what worked — your best prompts become your team's shared library"
+      ],
+      "speaker_notes": {
+        "aim": "Remove the pressure of writing a perfect prompt and replace it with a practical iteration mindset.",
+        "time": "8 minutes",
+        "instructions": "Demonstrate live: take a mediocre prompt output and show 3 follow-up instructions that progressively improve it. Do this in the actual AI tool so participants see the real interface. Narrate your thinking out loud.",
+        "reflective_question": "What do you normally do when an AI output is not good enough — retry, give up, or edit manually?",
+        "debrief": "Most people give up or edit manually. Iteration is the skill that separates effective prompt writers from frustrated ones."
+      }
+    },
+    {
+      "slide_index": 8,
+      "block": "theory",
+      "title": "Prompt Formats for Common Marketing Tasks",
+      "bullets": [
+        "Social media caption: Role + Task (platform, length, CTA) + Context (audience, product, campaign theme) + Constraints (tone, banned words)",
+        "Email subject line: Role + Task (number of options, character limit) + Context (email content summary, list segment) + Constraints (no clickbait, must pass spam filter logic)",
+        "Blog outline: Role + Task (number of sections, depth) + Context (target keyword, reader intent) + Constraints (include a FAQ section, avoid duplicate topics from existing posts)",
+        "Ad copy (Google/Meta): Role + Task (headline + description, character limits per field) + Context (product USP, competitor landscape) + Constraints (include price or offer, active voice only)",
+        "Save each format as a fill-in template — change only the Context block for each new campaign"
+      ],
+      "speaker_notes": {
+        "aim": "Make the framework immediately applicable by mapping it to the exact task types this marketing team does every day.",
+        "time": "10 minutes",
+        "instructions": "Go through each task type quickly. For at least two of them, show a completed prompt example on screen. Ask participants to identify which of the 5 blocks they can see in each example.",
+        "reflective_question": "Which of these five task types takes you the most time to produce today, without AI?",
+        "debrief": "Note the top two answers — use them to prioritise which task gets the most attention in the exercise block."
+      }
+    },
+    {
+      "slide_index": 9,
+      "block": "example",
+      "title": "Real Example: Writing a Social Media Post from Scratch",
+      "bullets": [
+        "Task: Create an Instagram post for a new product launch — a sustainable water bottle, €34.95, launching next Monday",
+        "Weak prompt used: 'Write an Instagram caption for our new water bottle'",
+        "Weak output received: 'Introducing our amazing new water bottle! Eco-friendly and stylish. Shop now! 💧🌍 #sustainability #hydration'",
+        "Problems: generic tone, no specific audience, no price or urgency, clichéd hashtags, does not match any real brand voice"
+      ],
+      "speaker_notes": {
+        "aim": "Show exactly what bad looks like before showing good — the contrast is the learning.",
+        "time": "8 minutes",
+        "instructions": "Show the weak prompt and output on screen. Ask participants: what is wrong with this? Collect answers on a flip chart. Likely answers: no personality, could be any brand, no reason to buy. Validate all answers before moving to the next slide.",
+        "reflective_question": "Have you ever received or produced copy that looks like this? What happened next?",
+        "debrief": "The weak output is not the AI's fault — it faithfully executed a weak brief. That is the core lesson of this example."
+      }
+    },
+    {
+      "slide_index": 10,
+      "block": "example",
+      "title": "Real Example: The Improved Prompt, Block by Block",
+      "bullets": [
+        "ROLE: You are a social media copywriter for a Dutch sustainable lifestyle brand with a dry, witty tone of voice",
+        "TASK: Write 3 Instagram captions for a product launch post, each max 180 characters, each ending with a different CTA",
+        "CONTEXT: Product is a 750ml insulated water bottle made from 100% recycled ocean plastic, priced at €34.95, launching Monday 12 May. Audience: environmentally conscious Dutch consumers aged 22-35 who are skeptical of greenwashing",
+        "CONSTRAINTS: No emojis, no hashtags in the caption itself, avoid the words 'sustainable', 'eco-friendly', and 'planet'. Do not use exclamation marks. Tone: confident, slightly ironic, never preachy"
+      ],
+      "speaker_notes": {
+        "aim": "Walk participants through a fully built prompt so they can see exactly how the 5 blocks combine into one coherent instruction.",
+        "time": "10 minutes",
+        "instructions": "Display the prompt with each block colour-coded. Go through it line by line. After each block, ask: 'Why does this detail matter? What would happen if we removed it?' Take time here — this is the key learning moment of the example block.",
+        "reflective_question": "Which part of this prompt would you not have thought to include on your own?",
+        "debrief": "Most participants will say Constraints or the specific audience psychographic. Reinforce that these are the blocks that carry the brand's identity."
+      }
+    },
+    {
+      "slide_index": 11,
+      "block": "example",
+      "title": "Real Example: The Output and What to Do Next",
+      "bullets": [
+        "Output option 1: 'Made from the ocean. Built for your commute. €34.95 and worth every cent. Shop from Monday.'",
+        "Output option 2: 'Your tap water called. It wants a better bottle. Meet ours — from recycled ocean plastic. Available Monday.'",
+        "Output option 3: 'Plastic that used to be in the ocean. Now it keeps your coffee warm. €34.95. Monday. You know what to do.'",
+        "Next iteration: pick the strongest option, then ask 'Rewrite option 2 replacing \"your tap water\" with a reference to Dutch cycling culture'",
+        "The prompt took 4 minutes to write. Manual copywriting of this quality would take 30-45 minutes"
+      ],
+      "speaker_notes": {
+        "aim": "Show the quality uplift and reinforce that iteration, not perfection, is the goal.",
+        "time": "7 minutes",
+        "instructions": "Read the three options aloud. Ask for a show of hands: which is the best? Discuss briefly why. Then show the iteration prompt live and display the new output. The live demonstration is critical — participants need to see the tool, not just slides.",
+        "reflective_question": "Would you be comfortable sending any of these three options to your manager as a first draft?",
+        "debrief": "The answer is usually yes for at least one option. That is the value proposition: a usable first draft in 4 minutes, not 45."
+      }
+    },
+    {
+      "slide_index": 12,
+      "block": "example",
+      "title": "Seeing the Pattern: What Made This Work",
+      "bullets": [
+        "The role gave the AI a specific creative direction — not just a job title but a voice and personality",
+        "The task was precise: 3 options, 180 characters, specific CTA requirement — the AI had no room to guess",
+        "The context gave brand-specific facts the AI cannot invent: price, launch date, material story, audience skepticism",
+        "The constraints filtered out the AI's default habits: emojis, exclamation marks, greenwashing buzzwords",
+        "The iteration was surgical: we did not rewrite the whole prompt, we changed one specific element"
+      ],
+      "speaker_notes": {
+        "aim": "Consolidate the example into a transferable pattern participants can apply to any task.",
+        "time": "5 minutes",
+        "instructions": "Use this slide as a debrief, not a lecture. Ask participants to identify the pattern themselves before you confirm it. Point back to the RTCFC framework on the flip chart.",
+        "reflective_question": "If you were to use this same pattern for your most common marketing task, what would go in each block?",
+        "debrief": "Give participants 2 minutes to jot down answers. This is a bridge to the exercise — they are already starting to think in the framework."
+      }
+    },
+    {
+      "slide_index": 13,
+      "block": "exercise",
+      "title": "Exercise 1 (Individual): Build Your First Structured Prompt",
+      "bullets": [
+        "Choose one real task from your current workload: a social post, email subject line, ad copy, or blog intro",
+        "Use the RTCFC template on your worksheet to fill in all 5 blocks for that task",
+        "Enter the completed prompt into the AI tool and capture the output",
+        "Rate the output: 1 = unusable, 3 = needs editing, 5 = ready to use as a first draft",
+        "If rating is below 3: identify which block was weak and rewrite only that block, then retry"
+      ],
+      "speaker_notes": {
+        "aim": "Give participants a low-stakes, personal first attempt at applying the framework with a real task they care about.",
+        "time": "20 minutes",
+        "instructions": "Distribute the RTCFC worksheet. Give 10 minutes for prompt writing and first output, then 10 minutes for iteration. Circulate and coach individually. The most common issue will be Context being too thin — prompt them with: 'Tell me more about your audience's biggest hesitation about this product.'",
+        "reflective_question": "What was the hardest block to fill in and why?",
+        "debrief": "Collect 2-3 examples from volunteers. Display their prompts on screen and give live group feedback using the 5-block lens."
+      }
+    },
+    {
+      "slide_index": 14,
+      "block": "exercise",
+      "title": "Exercise 2 (Pairs): Prompt Peer Review",
+      "bullets": [
+        "Swap your completed prompt with a partner — do not show them your output yet",
+        "Partner reads the prompt and predicts: what output will this produce? What is missing?",
+        "Partner writes one suggested improvement for each of the 5 blocks (even if it is 'this block is good as is')",
+        "Original owner runs the improved prompt and compares the new output to the original",
+        "Pairs discuss: which change had the biggest impact on output quality?"
+      ],
+      "speaker_notes": {
+        "aim": "Develop critical prompt-reading skills and introduce the team dynamic of collaborative prompt improvement.",
+        "time": "25 minutes",
+        "instructions": "Pair people with someone who works on a different product or campaign — cross-pollination of perspective is valuable. Give 5 minutes for reading and annotation, 5 minutes for suggested improvements, 10 minutes for running the improved prompt and comparing, 5 minutes for pair discussion.",
+        "reflective_question": "What did your partner see in your prompt that you had completely overlooked?",
+        "debrief": "Ask each pair to share the one change that made the biggest difference. Build a group list on the flip chart — this becomes the team's shared prompt improvement checklist."
+      }
+    },
+    {
+      "slide_index": 15,
+      "block": "exercise",
+      "title": "Exercise 3 (Group): The Prompt Sprint",
+      "bullets": [
+        "Groups of 3-4 people receive the same marketing brief: a campaign for a fictional product (provided on the brief card)",
+        "Each group has 15 minutes to write ONE shared prompt using the RTCFC framework",
+        "Groups submit their prompt — facilitator runs all prompts simultaneously in the AI tool",
+        "Outputs are displayed side by side anonymously — group votes on which prompt produced the best result",
+        "Winning group explains their decisions: what did they prioritise and why?"
+      ],
+      "speaker_notes": {
+        "aim": "Create healthy competition, expose different prompt strategies, and demonstrate that small differences in prompts produce large differences in outputs.",
+        "time": "30 minutes",
+        "instructions": "Prepare 1-2 brief cards in advance with enough product and audience information to make the task realistic but not overwhelming. Use a shared screen to display all outputs simultaneously. Keep the voting quick — the discussion about the winning prompt is where the learning happens.",
+        "reflective_question": "What was the most debated decision your group made while writing the prompt?",
+        "debrief": "Compare the prompts, not just the outputs. Show participants how different Role or Constraint choices produced measurably different tones and structures in the output."
+      }
+    },
+    {
+      "slide_index": 16,
+      "block": "exercise",
+      "title": "Exercise 4 (Individual): Build Your Personal Prompt Library",
+      "bullets": [
+        "Identify your top 3 recurring marketing tasks — the ones you do at least once a week",
+        "For each task, write a reusable RTCFC prompt template with placeholders for the variable information (e.g. [PRODUCT NAME], [LAUNCH DATE], [TARGET SEGMENT])",
+        "Test each template with a real example to confirm it produces a usable first draft",
+        "Save the three templates in a shared team folder or personal notes in the format: Task name / Prompt / Last tested date",
+        "Before leaving today: send your best template to one colleague who could also use it"
+      ],
+      "speaker_notes": {
+        "aim": "Ensure participants leave with concrete, immediately usable assets — not just knowledge.",
+        "time": "20 minutes",
+        "instructions": "This is a quieter, individual working session. Play background music to signal focus time. Circulate and help participants who are struggling to identify their recurring tasks — ask: 'What did you produce last Monday? What will you produce again next Monday?'",
+        "reflective_question": "If you had these three templates ready tomorrow morning, how much time would you save this week?",
+        "debrief": "Ask for volunteers to share one template. Validate the structure and suggest one improvement. End with the message: this library grows over time — add to it every week."
+      }
+    },
+    {
+      "slide_index": 17,
+      "block": "wrapup",
+      "title": "What You Now Know How to Do",
+      "bullets": [
+        "Write prompts using the RTCFC framework: Role, Task, Context, Format, Constraints",
+        "Diagnose a bad output by identifying which of the 5 blocks was missing or unclear",
+        "Iterate surgically: change one block at a time rather than rewriting the entire prompt",
+        "Use the 'clarification step' to let the AI ask you questions before it writes",
+        "Build reusable prompt templates that carry your brand voice across every campaign"
+      ],
+      "speaker_notes": {
+        "aim": "Consolidate the day's learning into a clear, confident summary of acquired skills.",
+        "time": "8 minutes",
+        "instructions": "Read each bullet and ask participants to give a thumbs up if they feel confident in that skill, sideways if partially confident, down if they still need practice. Use the results to identify any area that needs a quick clarification before close.",
+        "reflective_question": "Which of these five skills felt most natural to you today, and which felt hardest?",
+        "debrief": "Normalise that not everyone will feel confident in all five after one session. The library-building exercise is specifically designed so they keep practising after today."
+      }
+    },
+    {
+      "slide_index": 18,
+      "block": "wrapup",
+      "title": "Connecting This to Your Daily Work: The 30-Day Plan",
+      "bullets": [
+        "Week 1: Use the RTCFC framework for every AI task — even if it takes longer than your old method",
+        "Week 2: Add one new prompt template to your library every time you complete a repeating task",
+        "Week 3: Share your best-performing prompt with one colleague and ask for their improvement suggestion",
+        "Week 4: Review your library — which templates saved the most time? Refine the underperforming ones",
+        "Month 2 onwards: Propose one shared team prompt template for your highest-volume content type"
+      ],
+      "speaker_notes": {
+        "aim": "Bridge from training room to real work with a concrete, low-effort habit plan that builds on itself.",
+        "time": "7 minutes",
+        "instructions": "Give participants 2 minutes to write down which specific task in Week 1 they will use the framework on. Ask 2-3 people to share their answer aloud — public commitment increases follow-through. Consider scheduling a 30-minute check-in session in 4 weeks.",
+        "reflective_question": "What is the first task you will use a structured prompt for tomorrow morning — and what time will you do it?",
+        "debrief": "The more specific the commitment (task + time), the higher the chance of follow-through. Encourage specificity."
+      }
+    },
+    {
+      "slide_index": 19,
+      "block": "wrapup",
+      "title": "Your Toolkit and Next Steps",
+      "bullets": [
+        "RTCFC Cheat Sheet: one-page reference card with the 5 blocks and example fill-ins for each marketing task type",
+        "Prompt Template Starter Pack: 5 ready-made templates for social, email, blog, ad copy, and briefing documents",
+        "Shared Team Folder: add your best prompts here so the whole team benefits — link in the chat/email follow-up",
+        "Recommended tool for daily use: ChatGPT (GPT-4), Claude, or Microsoft Copilot — all work with the RTCFC framework",
+        "Questions after today? Post in the team Slack channel #prompt-engineering — we will review examples weekly"
+      ],
+      "speaker_notes": {
+        "aim": "Ensure every participant leaves with tangible resources and a clear community for continued support.",
+        "time": "5 minutes",
+        "instructions": "Distribute the physical or digital cheat sheet and template starter pack before participants leave. Show them the shared folder and confirm the Slack channel is live. Do a final round: one word to describe how they feel about using AI tools now vs. this morning.",
+        "reflective_question": "What is the one thing from today that you will definitely tell a colleague about?",
+        "debrief": "Close with energy: the skill they built today compounds every week. The marketers who master prompt engineering will produce better content faster than anyone who does not. They are now ahead of the curve."
+      }
+    }
+  ]
+}
