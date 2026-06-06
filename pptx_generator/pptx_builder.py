@@ -35,7 +35,15 @@ DEFAULT_RENDER_READY_PATH = BASE_DIR / "slides_render_ready.json"
 
 SLIDE_W = 13.333
 SLIDE_H = 7.5
-FOOTER_H = 0.65
+FOOTER_H = 0.45
+
+TITLE_FONT_SIZE = 18
+COVER_TITLE_FONT_SIZE = 18
+BODY_FONT_SIZE = 10
+BODY_LARGE_FONT_SIZE = 11
+BODY_SMALL_FONT_SIZE = 9
+CAPTION_FONT_SIZE = 6
+TAKEAWAY_FONT_SIZE = 8
 
 
 def hex_to_rgb(hex_color: str) -> RGBColor:
@@ -227,7 +235,7 @@ def add_bullets(slide, bullets: list[str], x: float, y: float, w: float, h: floa
         paragraph = frame.paragraphs[0] if i == 0 else frame.add_paragraph()
         paragraph.text = str(bullet)
         paragraph.level = 0
-        paragraph.space_after = Pt(7)
+        paragraph.space_after = Pt(3)
         paragraph.font.name = FONTS["fallback"]
         paragraph.font.size = Pt(size)
         paragraph.font.color.rgb = hex_to_rgb(color)
@@ -248,13 +256,13 @@ def add_footer(slide, slide_json: dict[str, Any]):
     logo_path = BASE_DIR / BRANDING["logo_path"]
     if logo_path.exists():
         try:
-            slide.shapes.add_picture(str(logo_path), Cm(0.55), Cm(SLIDE_H - 0.48), height=Cm(0.28))
+            slide.shapes.add_picture(str(logo_path), Cm(0.55), Cm(SLIDE_H - 0.34), height=Cm(0.18))
         except Exception:
-            add_textbox(slide, "Maverx", 0.55, SLIDE_H - 0.52, 2.0, 0.3, 8, text_color, True)
+            add_textbox(slide, "Maverx", 0.55, SLIDE_H - 0.37, 2.0, 0.22, CAPTION_FONT_SIZE, text_color, True)
     else:
-        add_textbox(slide, "Maverx", 0.55, SLIDE_H - 0.52, 2.0, 0.3, 8, text_color, True)
+        add_textbox(slide, "Maverx", 0.55, SLIDE_H - 0.37, 2.0, 0.22, CAPTION_FONT_SIZE, text_color, True)
 
-    site = add_textbox(slide, BRANDING["website"], SLIDE_W - 2.8, SLIDE_H - 0.52, 2.25, 0.3, 8, text_color)
+    site = add_textbox(slide, BRANDING["website"], SLIDE_W - 2.8, SLIDE_H - 0.37, 2.25, 0.22, CAPTION_FONT_SIZE, text_color)
     site.text_frame.paragraphs[0].alignment = PP_ALIGN.RIGHT
 
 
@@ -265,9 +273,9 @@ def set_background(slide, color: str):
 
 
 def render_cover(slide, slide_json: dict[str, Any]):
-    add_textbox(slide, slide_json["title"], 0.9, 1.45, 11.2, 1.6, 34, slide_json["title_color"], True)
-    add_bullets(slide, slide_json.get("bullets", [])[:3], 1.0, 3.35, 9.5, 1.55, "#F2F2F2", 18)
-    bar = slide.shapes.add_shape(1, Cm(0.9), Cm(5.55), Cm(3.2), Cm(0.16))
+    add_textbox(slide, slide_json["title"], 0.9, 1.35, 11.4, 0.8, COVER_TITLE_FONT_SIZE, slide_json["title_color"], True)
+    add_bullets(slide, slide_json.get("bullets", [])[:4], 1.0, 2.55, 10.4, 2.45, "#F2F2F2", BODY_LARGE_FONT_SIZE)
+    bar = slide.shapes.add_shape(1, Cm(0.9), Cm(5.35), Cm(2.6), Cm(0.08))
     bar.fill.solid()
     bar.fill.fore_color.rgb = hex_to_rgb(slide_json["accent_color"])
     bar.line.color.rgb = hex_to_rgb(slide_json["accent_color"])
@@ -278,41 +286,41 @@ def render_agenda(slide, slide_json: dict[str, Any]):
     bullets = slide_json.get("bullets", [])
     left = bullets[: (len(bullets) + 1) // 2]
     right = bullets[(len(bullets) + 1) // 2 :]
-    add_bullets(slide, left, 1.1, 2.05, 5.2, 4.25, slide_json["title_color"], 18)
-    add_bullets(slide, right, 7.0, 2.05, 5.0, 4.25, slide_json["title_color"], 18)
+    add_bullets(slide, left, 1.0, 1.45, 5.45, 5.0, slide_json["title_color"], BODY_LARGE_FONT_SIZE)
+    add_bullets(slide, right, 6.9, 1.45, 5.45, 5.0, slide_json["title_color"], BODY_LARGE_FONT_SIZE)
 
 
 def render_timetable(slide, slide_json: dict[str, Any]):
     add_title(slide, slide_json)
     bullets = slide_json.get("bullets", [])
-    y = 1.8
+    y = 1.35
     for item in bullets[:7]:
         parts = str(item).split(" - ", 1)
         time = parts[0]
         activity = parts[1] if len(parts) > 1 else str(item)
-        add_textbox(slide, time, 1.1, y, 2.0, 0.48, 14, slide_json["accent_color"], True)
-        add_textbox(slide, activity, 3.35, y, 8.4, 0.48, 15, slide_json["title_color"])
-        y += 0.64
+        add_textbox(slide, time, 1.0, y, 1.85, 0.36, BODY_SMALL_FONT_SIZE, slide_json["accent_color"], True)
+        add_textbox(slide, activity, 3.05, y, 9.0, 0.36, BODY_FONT_SIZE, slide_json["title_color"])
+        y += 0.52
 
 
 def render_exercise(slide, slide_json: dict[str, Any]):
     add_title(slide, slide_json)
     bullets = slide_json.get("bullets", [])[:6]
-    y = 1.75
+    y = 1.35
     for i, bullet in enumerate(bullets, start=1):
-        box = slide.shapes.add_shape(1, Cm(1.05), Cm(y), Cm(0.58), Cm(0.58))
+        box = slide.shapes.add_shape(1, Cm(1.0), Cm(y), Cm(0.42), Cm(0.42))
         box.fill.solid()
         box.fill.fore_color.rgb = hex_to_rgb(slide_json["accent_color"])
         box.line.color.rgb = hex_to_rgb(slide_json["accent_color"])
-        num = add_textbox(slide, str(i), 1.05, y + 0.05, 0.58, 0.35, 12, "#F2F2F2", True)
+        num = add_textbox(slide, str(i), 1.0, y + 0.03, 0.42, 0.25, 7, "#F2F2F2", True)
         num.text_frame.paragraphs[0].alignment = PP_ALIGN.CENTER
-        add_textbox(slide, str(bullet), 1.9, y - 0.02, 10.2, 0.62, 15, slide_json["title_color"])
-        y += 0.72
+        add_textbox(slide, str(bullet), 1.7, y - 0.02, 10.7, 0.42, BODY_FONT_SIZE, slide_json["title_color"])
+        y += 0.58
 
 
 def add_title(slide, slide_json: dict[str, Any]):
-    add_textbox(slide, slide_json.get("title", ""), 0.85, 0.55, 11.3, 0.85, FONTS["title"], slide_json["title_color"], True)
-    accent = slide.shapes.add_shape(1, Cm(0.85), Cm(1.43), Cm(1.25), Cm(0.08))
+    add_textbox(slide, slide_json.get("title", ""), 0.85, 0.42, 11.5, 0.52, TITLE_FONT_SIZE, slide_json["title_color"], True)
+    accent = slide.shapes.add_shape(1, Cm(0.85), Cm(1.02), Cm(1.05), Cm(0.05))
     accent.fill.solid()
     accent.fill.fore_color.rgb = hex_to_rgb(slide_json["accent_color"])
     accent.line.color.rgb = hex_to_rgb(slide_json["accent_color"])
@@ -328,11 +336,11 @@ def add_key_takeaway(slide, slide_json: dict[str, Any]):
     if not takeaway:
         return
 
-    box = slide.shapes.add_shape(1, Cm(0.85), Cm(6.2), Cm(11.65), Cm(0.58))
+    box = slide.shapes.add_shape(1, Cm(0.85), Cm(6.33), Cm(11.65), Cm(0.38))
     box.fill.solid()
     box.fill.fore_color.rgb = hex_to_rgb(slide_json["accent_color"])
     box.line.color.rgb = hex_to_rgb(slide_json["accent_color"])
-    add_textbox(slide, str(takeaway), 1.05, 6.29, 11.2, 0.32, 11, "#F2F2F2", True)
+    add_textbox(slide, str(takeaway), 1.0, 6.38, 11.35, 0.22, TAKEAWAY_FONT_SIZE, "#F2F2F2", True)
 
 
 def render_standard(slide, slide_json: dict[str, Any]):
@@ -341,10 +349,10 @@ def render_standard(slide, slide_json: dict[str, Any]):
     if slide_json.get("layout_key") == "title_2col" or len(bullets) > 5:
         left = bullets[: (len(bullets) + 1) // 2]
         right = bullets[(len(bullets) + 1) // 2 :]
-        add_bullets(slide, left, 1.0, 1.85, 5.25, 3.95, slide_json["title_color"], 15)
-        add_bullets(slide, right, 6.95, 1.85, 5.25, 3.95, slide_json["title_color"], 15)
+        add_bullets(slide, left, 1.0, 1.35, 5.45, 4.85, slide_json["title_color"], BODY_FONT_SIZE)
+        add_bullets(slide, right, 6.9, 1.35, 5.45, 4.85, slide_json["title_color"], BODY_FONT_SIZE)
     else:
-        add_bullets(slide, bullets, 1.05, 1.85, 10.9, 4.25, slide_json["title_color"], 17)
+        add_bullets(slide, bullets, 1.05, 1.35, 11.1, 4.85, slide_json["title_color"], BODY_LARGE_FONT_SIZE)
     add_key_takeaway(slide, slide_json)
 
 
