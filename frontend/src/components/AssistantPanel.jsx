@@ -17,7 +17,7 @@ const LEVEL_CHIPS = [
 ];
 
 /* -- Conversation history ------------------------------------------------- */
-function History({ messages }) {
+function History({ messages, t }) {
   const ref = useRef(null);
   useEffect(() => {
     if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
@@ -25,18 +25,21 @@ function History({ messages }) {
 
   if (!messages.length) return null;
   return (
-    <div className="history" ref={ref} aria-live="polite" aria-label="Conversation">
-      {messages.map((m, i) => (
-        <div key={i} className={`bubble ${m.role}`}>
-          {m.text}
-        </div>
-      ))}
+    <div className="history" ref={ref} aria-live="polite" aria-label={t("assistant.conversation")}>
+      {messages.map((m, i) => {
+        const text = m.key ? t(m.key, m.params) : m.text;
+        return (
+          <div key={i} className={`bubble ${m.role}`}>
+            {text}
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 /* -- Intake question ------------------------------------------------------ */
-function IntakeBlock({ t, step, input, setInput, onSend, busy }) {
+function IntakeBlock({ t, step, input, setInput, onSend, onBack, busy }) {
   const chips =
     step === 0
       ? TOPIC_CHIPS.map((key) => ({ key, value: t(key) }))
@@ -73,7 +76,7 @@ function IntakeBlock({ t, step, input, setInput, onSend, busy }) {
               type="button"
               className="chip"
               disabled={busy}
-              onClick={() => onSend(c.value)}
+              onClick={() => onSend(c.value, c.key)}
             >
               {c.label || c.value}
             </button>
@@ -92,7 +95,11 @@ function IntakeBlock({ t, step, input, setInput, onSend, busy }) {
           disabled={busy}
         />
         <div className="action-row">
-          <span className="hint">{t("intake.hint")}</span>
+          {step > 0 && (
+            <button type="button" className="ghost-button" onClick={onBack} disabled={busy}>
+              {t("intake.back")}
+            </button>
+          )}
           <button type="button" className="primary-button" onClick={submit} disabled={busy || !input.trim()}>
             {t("intake.send")}
           </button>
@@ -237,7 +244,7 @@ export default function AssistantPanel(props) {
   })();
 
   return (
-    <section className="assistant-panel" role="complementary" aria-label="SlideKick assistant">
+    <section className="assistant-panel" role="complementary" aria-label={t("assistant.aria")}>
       <header className="panel-header">
         <div className="assistant-id">
           <div className="assistant-avatar" aria-hidden="true">
@@ -251,7 +258,7 @@ export default function AssistantPanel(props) {
         <ProgressDots states={dots} />
       </header>
 
-      <History messages={messages} />
+      <History messages={messages} t={t} />
 
       {phase === "intake" && (
         <IntakeBlock
@@ -260,6 +267,7 @@ export default function AssistantPanel(props) {
           input={props.input}
           setInput={props.setInput}
           onSend={props.onSend}
+          onBack={props.onBack}
           busy={props.busy}
         />
       )}

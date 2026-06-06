@@ -4,9 +4,9 @@ import ConfidenceBadge, { confidenceLevel } from "./ConfidenceBadge.jsx";
 /* -- Hero (intake / outline-path phases) ---------------------------------- */
 function Hero({ t }) {
   return (
-    <section className="hero-card" role="region" aria-label="Slide viewer">
+    <section className="hero-card" role="region" aria-label={t("stage.viewer")}>
       <div className="hero-icon" aria-hidden="true">
-        ✨
+        *
       </div>
       <h1 className="hero-title">{t("stage.title")}</h1>
       <p className="hero-text">{t("stage.subtitle")}</p>
@@ -17,7 +17,12 @@ function Hero({ t }) {
 /* -- Outline preview (outline-review / first block proposal) -------------- */
 function OutlinePreview({ t, outline, currentBlockIndex, blocks }) {
   return (
-    <section className="hero-card" role="region" aria-label={t("outline.title")} style={{ justifyContent: "flex-start", alignItems: "stretch", textAlign: "left" }}>
+    <section
+      className="hero-card"
+      role="region"
+      aria-label={t("outline.title")}
+      style={{ justifyContent: "flex-start", alignItems: "stretch", textAlign: "left" }}
+    >
       <h2 className="deck-title">{t("outline.title")}</h2>
       <p className="hero-text" style={{ margin: 0 }}>
         {t("outline.subtitle")}
@@ -31,15 +36,18 @@ function OutlinePreview({ t, outline, currentBlockIndex, blocks }) {
               key={block.block_id}
               className={`outline-item ${status === "done" ? "done" : ""} ${isCurrent ? "current" : ""}`}
             >
-              <span className="oi-index">{status === "done" ? "✓" : i + 1}</span>
+              <span className="oi-index">{status === "done" ? "OK" : i + 1}</span>
               <div className="oi-body">
                 <div className="oi-title">{t(`block.${block.block_id}`)}</div>
                 <div className="oi-meta">
-                  {block.description} · {t("outline.estimate", { count: block.slide_count_estimate })}
+                  {t(`block.${block.block_id}.description`)}{" "}
+                  {t("outline.estimate", { count: block.slide_count_estimate })}
                 </div>
               </div>
               <span className="oi-status">
-                {status === "generating" ? t("phase.block_generating", { step: i + 1, total: outline.length }) : status}
+                {status === "generating"
+                  ? t("phase.block_generating", { step: i + 1, total: outline.length })
+                  : t(`status.${status}`)}
               </span>
             </div>
           );
@@ -52,8 +60,12 @@ function OutlinePreview({ t, outline, currentBlockIndex, blocks }) {
 /* -- Single slide canvas -------------------------------------------------- */
 function SlideCanvas({ slide, t }) {
   return (
-    <div className="slide-canvas" role="img" aria-label={`Slide ${slide.slide_number}: ${slide.title}`}>
-      <span className="slide-layout-tag">{slide.layout}</span>
+    <div
+      className="slide-canvas"
+      role="img"
+      aria-label={t("slide.aria", { number: slide.slide_number, title: slide.title })}
+    >
+      <span className="slide-layout-tag">{t(`layout.${slide.layout}`)}</span>
       <span className="slide-kicker">{t(`block.${slide.module_block}`)}</span>
       <h2 className="slide-heading">{slide.title}</h2>
       <ul className="slide-bullets">
@@ -79,9 +91,9 @@ function GeneratingCanvas({ t, blockId }) {
 }
 
 /* -- Filmstrip thumbnails ------------------------------------------------- */
-function Filmstrip({ slides, activeSlide, setActiveSlide, generatingCount }) {
+function Filmstrip({ slides, activeSlide, setActiveSlide, generatingCount, t }) {
   return (
-    <div className="filmstrip" role="tablist" aria-label="Slides">
+    <div className="filmstrip" role="tablist" aria-label={t("filmstrip.aria")}>
       {slides.map((slide, i) => (
         <button
           key={slide.slide_number}
@@ -104,7 +116,7 @@ function Filmstrip({ slides, activeSlide, setActiveSlide, generatingCount }) {
           />
           <span className="thumb-num">{slide.slide_number}</span>
           <span className="thumb-title">{slide.title}</span>
-          <span className="thumb-block">{slide.module_block}</span>
+          <span className="thumb-block">{t(`block.${slide.module_block}`)}</span>
         </button>
       ))}
       {Array.from({ length: generatingCount }).map((_, i) => (
@@ -131,8 +143,8 @@ function DeckView({
       <div className="deck-header">
         <h2 className="deck-title">{deckTitle || t("review.title")}</h2>
         <span className="deck-meta">
-          {slides.length} {slides.length === 1 ? "slide" : "slides"}
-          {generating ? " · +" + generatingCount : ""}
+          {t(slides.length === 1 ? "slide.count.one" : "slide.count.other", { count: slides.length })}
+          {generating ? ` +${generatingCount}` : ""}
         </span>
       </div>
 
@@ -155,6 +167,7 @@ function DeckView({
         activeSlide={activeSlide}
         setActiveSlide={setActiveSlide}
         generatingCount={generating ? generatingCount : 0}
+        t={t}
       />
 
       <Notes notes={active ? active.speaker_notes : null} t={t} />
@@ -165,14 +178,14 @@ function DeckView({
 /* -- Done card ------------------------------------------------------------ */
 function DoneCard({ t, lang, deckTitle, downloadUrl, onDownload, onRestart }) {
   const items = [
-    ["bundle.pptx", "📊"],
-    ["bundle.prebite", "📄"],
-    ["bundle.postbite", "📝"],
+    ["bundle.pptx", "PPTX"],
+    ["bundle.prebite", "DOC"],
+    ["bundle.postbite", "DOC"],
   ];
   return (
     <section className="hero-card" role="region" aria-label={t("done.title")}>
       <div className="hero-icon" aria-hidden="true">
-        🎉
+        OK
       </div>
       <h1 className="hero-title">{t("done.title")}</h1>
       <p className="hero-text">{t("done.subtitle", { lang: t(`lang.${lang}`) })}</p>
@@ -194,7 +207,7 @@ function DoneCard({ t, lang, deckTitle, downloadUrl, onDownload, onRestart }) {
           onClick={onDownload}
           style={{ textDecoration: "none" }}
         >
-          ⬇ {t("done.download")}
+          {t("done.download")}
         </a>
         <button type="button" className="ghost-button" onClick={onRestart}>
           {t("done.restart")}
@@ -205,7 +218,7 @@ function DoneCard({ t, lang, deckTitle, downloadUrl, onDownload, onRestart }) {
 }
 
 /**
- * Stage — the left/main artifact area. Renders the right view for the phase.
+ * Stage - the left/main artifact area. Renders the right view for the phase.
  */
 export default function Stage(props) {
   const { phase, slides } = props;

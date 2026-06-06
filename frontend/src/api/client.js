@@ -10,15 +10,28 @@ const USE_MOCK = (import.meta.env?.VITE_MOCK_API ?? "true") !== "false";
 const API_BASE = import.meta.env?.VITE_API_BASE ?? "/api";
 
 async function post(path, body) {
+  const isFormData = body instanceof FormData;
   const res = await fetch(`${API_BASE}${path}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+    headers: isFormData ? undefined : { "Content-Type": "application/json" },
+    body: isFormData ? body : JSON.stringify(body),
   });
   if (!res.ok) {
     throw new Error(`API ${path} failed: ${res.status} ${res.statusText}`);
   }
   return res.json();
+}
+
+function buildFinalisePayload(payload) {
+  const { styleGuideFiles = [], ...jsonPayload } = payload;
+  if (!styleGuideFiles.length) return jsonPayload;
+
+  const formData = new FormData();
+  formData.append("payload", JSON.stringify(jsonPayload));
+  styleGuideFiles.forEach((file) => {
+    formData.append("style_guide_files", file, file.name);
+  });
+  return formData;
 }
 
 async function get(path) {
@@ -40,7 +53,7 @@ const realApi = {
   proposeBlock: (payload) => post("/propose-block", payload),
   generateBlock: (payload) => post("/generate-block", payload),
   getBlockStatus: ({ job_id }) => get(`/block-status/${job_id}`),
-  finalise: (payload) => post("/finalise", payload),
+  finalise: (payload) => post("/finalise", buildFinalisePayload(payload)),
   // The real backend should return cost in finalise / status responses; until
   // then we surface zeros so the meter renders without special-casing.
   getCost: () => ({ tokens: 0, usd: 0, model: "backend" }),
