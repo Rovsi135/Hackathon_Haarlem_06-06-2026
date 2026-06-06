@@ -46,6 +46,7 @@ export default function App() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [deckTitle, setDeckTitle] = useState("");
   const [downloadUrl, setDownloadUrl] = useState("");
+  const [styleGuideFiles, setStyleGuideFiles] = useState([]);
 
   const [cost, setCost] = useState(() => api.getCost());
   const [busy, setBusy] = useState(false);
@@ -206,7 +207,12 @@ export default function App() {
     setBusy(true);
     try {
       const job_ids = outline.map((b) => blocks[b.block_id]);
-      const { download_url, title } = await api.finalise({ answers, job_ids, lang });
+      const { download_url, title } = await api.finalise({
+        answers,
+        job_ids,
+        lang,
+        styleGuideFiles,
+      });
       refreshCost();
       setDownloadUrl(download_url);
       setDeckTitle(title);
@@ -234,6 +240,7 @@ export default function App() {
     setActiveSlide(0);
     setDeckTitle("");
     setDownloadUrl("");
+    setStyleGuideFiles([]);
     setCost(api.getCost());
   }
 
@@ -258,7 +265,15 @@ export default function App() {
 
   return (
     <div className="app-shell" role="application">
-      <Sidebar t={t} lang={lang} setLang={setLang} cost={cost} user={USER} />
+      <Sidebar
+        t={t}
+        lang={lang}
+        setLang={setLang}
+        cost={cost}
+        user={USER}
+        styleGuideFiles={styleGuideFiles}
+        setStyleGuideFiles={setStyleGuideFiles}
+      />
 
       <div className="main-grid">
         <Stage
