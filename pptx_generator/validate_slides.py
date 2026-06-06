@@ -5,7 +5,6 @@ Pass 2 of the pptx pipeline.
 
 Input:  slides_pre_styled.json  (output of style_slides.py)
 Output: slides_feedback.json    (structured feedback to feed back into the content/styling LLM)
-        slides_styled.json      (auto-fixed version where fixes are unambiguous)
 """
 
 import json
@@ -102,16 +101,7 @@ Return ONLY valid JSON in this exact structure. No markdown, no explanation, no 
       "fix_instruction": "<exact instruction to fix this, written so another LLM can act on it>"
     }}
   ],
-  "auto_fixes": [
-    {{
-      "slide_index": <int>,
-      "field": "<field>",
-      "old_value": "<old>",
-      "new_value": "<new>",
-      "reason": "<why this was auto-fixed>"
-    }}
-  ],
-  "correction_prompt": "<A complete prompt you would send to the styling LLM to fix all non-auto-fixed issues. Write it as if you are instructing the LLM directly, referencing slide indices and specific fields.>"
+  "correction_prompt": "<A complete prompt you would send to the styling LLM to fix all issues. Write it as if you are instructing the LLM directly, referencing slide indices and specific fields.>"
 }}
 
 The correction_prompt field is the most important output.
@@ -269,48 +259,9 @@ def run_rule_checks(slides: list) -> list:
     return issues
 
 
-def apply_auto_fixes(slides: list, rule_issues: list) -> tuple[list, list]:
-    auto_fixes = []
-    slide_map = {s["slide_index"]: s for s in slides}
-
-    for issue in rule_issues:
-        idx = issue["slide_index"]
-        if idx is None:
-            continue
-        slide = slide_map.get(idx)
-        if not slide:
-            continue
-
-        field = issue["field"]
-        new_val = issue["expected_value"]
-
-        if field in ("bg_color", "title_color") and issue["category"] == "style":
-            old_val = slide.get(field)
-            slide[field] = new_val
-            auto_fixes.append({
-                "slide_index": idx,
-                "field": field,
-                "old_value": old_val,
-                "new_value": new_val,
-                "reason": f"Color did not match BLOCK_COLORS rule for block '{slide.get('block')}'"
-            })
-
-        if field == "split_required" and issue["category"] == "content":
-            slide["split_required"] = True
-            auto_fixes.append({
-                "slide_index": idx,
-                "field": "split_required",
-                "old_value": False,
-                "new_value": True,
-                "reason": f"Slide has {len(slide.get('bullets', []))} bullets — exceeds max of {CONTENT_RULES['max_bullets_per_slide']}"
-            })
-
-    return list(slide_map.values()), auto_fixes
-
-
 def validate_with_llm(slides_json: dict, rule_issues: list) -> dict:
     pre_check_summary = f"""
-The following issues were already found by automated rule checks and auto-fixed where possible.
+The following issues were already found by automated rule checks.
 Do NOT re-report these as new issues. Use them as context when writing the correction_prompt.
 
 Pre-detected issues ({len(rule_issues)} total):
@@ -338,47 +289,36 @@ Pre-detected issues ({len(rule_issues)} total):
     return json.loads(clean)
 
 
-def validate_slides(input_path: str = "slides_pre_styled.json") -> tuple[dict, dict]:
-    print(f"[1/4] Loading {input_path}...")
+def validate_slides(input_path: str = "slides_pre_styled.json") -> dict:
+    print(f"[1/3] Loading {input_path}...")
     with open(input_path, "r") as f:
         slides_json = json.load(f)
 
     slides = slides_json.get("slides", [])
     print(f"      {len(slides)} slides loaded.")
 
-    print("[2/4] Running rule-based checks...")
+    print("[2/3] Running rule-based checks...")
     rule_issues = run_rule_checks(slides)
     print(f"      {len(rule_issues)} rule issues found.")
 
-    print("[3/4] Applying auto-fixes...")
-    fixed_slides, auto_fixes = apply_auto_fixes(slides, rule_issues)
-    slides_json["slides"] = fixed_slides
-    print(f"      {len(auto_fixes)} auto-fixes applied.")
-
-    print("[4/4] Running LLM validation pass...")
+    print("[3/3] Running LLM validation pass...")
     llm_result = validate_with_llm(slides_json, rule_issues)
 
-    llm_result["auto_fixes"] = auto_fixes + llm_result.get("auto_fixes", [])
     llm_result["summary"]["total_issues"] = (
         len(llm_result.get("issues", [])) + len(rule_issues)
     )
 
-    return slides_json, llm_result
+    return llm_result
 
 
 if __name__ == "__main__":
-    fixed_json, feedback = validate_slides("slides_pre_styled.json")
+    feedback = validate_slides("slides_pre_styled.json")
 
     with open("slides_feedback.json", "w") as f:
         json.dump(feedback, f, indent=2)
     print(f"\n✓ Feedback written to slides_feedback.json")
     print(f"  Total issues:  {feedback['summary']['total_issues']}")
     print(f"  Blocking:      {feedback['summary']['has_blocking_issues']}")
-    print(f"  Auto-fixes:    {len(feedback.get('auto_fixes', []))}")
-
-    with open("slides_auto_fixed.json", "w") as f:
-        json.dump(fixed_json, f, indent=2)
-    print(f"✓ Auto-fixed JSON written to slides_auto_fixed.json")
 
     print("\n--- CORRECTION PROMPT ---")
     print(feedback.get("correction_prompt", "No correction prompt generated."))
