@@ -222,10 +222,15 @@ textarea:focus-visible,
   gap: 18px;
 }
 
+.nav-link-wrap {
+  position: relative;
+}
+
 .nav-link {
   display: flex;
   align-items: center;
   gap: 16px;
+  width: 100%;
   min-height: 34px;
   padding: 0 2px;
   border-radius: 8px;
@@ -234,6 +239,12 @@ textarea:focus-visible,
   font-size: 16px;
   font-weight: var(--fw-bold);
   transition: color 160ms ease, transform 160ms ease;
+}
+
+.nav-link-button {
+  border: 0;
+  background: transparent;
+  text-align: left;
 }
 
 .nav-link:hover,
@@ -310,6 +321,205 @@ textarea:focus-visible,
   border-top: 0;
   border-bottom: 0;
   transform: rotate(45deg);
+}
+
+.settings-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: var(--s5);
+  background: rgba(15, 23, 42, 0.34);
+}
+
+.settings-modal {
+  width: min(460px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding: var(--s5);
+  border-radius: var(--r-md);
+  background: #fff;
+  color: var(--text-900);
+  box-shadow: 0 24px 68px rgba(15, 23, 42, 0.26);
+  border: 1px solid var(--border-100);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.settings-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+
+.settings-modal-title {
+  font-size: 20px;
+  font-weight: var(--fw-bold);
+}
+
+.settings-modal-subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--muted-600);
+}
+
+.modal-close-button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-100);
+  border-radius: var(--r-sm);
+  background: #fff;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.modal-close-button::before,
+.modal-close-button::after {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 15px;
+  width: 13px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--muted-600);
+}
+
+.modal-close-button::before {
+  transform: rotate(45deg);
+}
+
+.modal-close-button::after {
+  transform: rotate(-45deg);
+}
+
+.modal-close-button:hover {
+  background: var(--chip-bg);
+}
+
+.drop-zone {
+  min-height: 154px;
+  border: 1px dashed rgba(67, 56, 202, 0.38);
+  border-radius: var(--r-sm);
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: var(--s3);
+  text-align: center;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.drop-zone:hover,
+.drop-zone.dragging {
+  background: #fff;
+  border-color: var(--mx-purple-600);
+  transform: translateY(-1px);
+}
+
+.drop-icon {
+  width: 30px;
+  height: 30px;
+  border: 2px solid currentColor;
+  border-radius: 8px;
+  position: relative;
+}
+
+.drop-icon::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid currentColor;
+  border-top: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.drop-icon::after {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 7px;
+  width: 2px;
+  height: 15px;
+  background: currentColor;
+}
+
+.drop-title {
+  font-size: 14px;
+  font-weight: var(--fw-bold);
+}
+
+.drop-help {
+  font-size: 12px;
+  color: var(--muted-600);
+}
+
+.upload-button {
+  align-self: flex-start;
+  border: 0;
+  border-radius: var(--r-md);
+  background: var(--primary-gradient);
+  color: #fff;
+  padding: var(--s3) var(--s5);
+  font-size: 14px;
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.upload-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-1);
+}
+
+.file-input {
+  display: none;
+}
+
+.uploaded-files {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  margin-top: var(--s2);
+  max-height: 132px;
+  overflow-y: auto;
+}
+
+.uploaded-file {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  border: 1px solid var(--border-100);
+  border-radius: var(--r-sm);
+  padding: 7px var(--s2);
+  background: #fff;
+}
+
+.uploaded-file-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+}
+
+.uploaded-file-size {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--muted-600);
 }
 
 /* Language switch lives in the sidebar (bilingual output requirement) */

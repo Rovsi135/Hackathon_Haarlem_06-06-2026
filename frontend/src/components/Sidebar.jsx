@@ -1,15 +1,51 @@
+import { useRef, useState } from "react";
 import { SUPPORTED_LANGS } from "../i18n/index.js";
 
 /**
  * Sidebar: brand, lower-left navigation, language switch, run-cost meter and profile.
  */
 export default function Sidebar({ t, lang, setLang, cost, user }) {
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [files, setFiles] = useState([]);
+  const fileInputRef = useRef(null);
   const profile = { ...user, name: "Lucas van Zuiddam", initials: "LV" };
   const links = [
     { key: "nav.getting_started", icon: "chat", active: true },
     { key: "nav.support", icon: "help" },
     { key: "nav.settings", icon: "settings" },
   ];
+
+  const acceptedExtensions = [".pdf", ".pptx"];
+
+  function pickFiles(nextFiles) {
+    const allowed = Array.from(nextFiles).filter((file) =>
+      acceptedExtensions.some((extension) => file.name.toLowerCase().endsWith(extension))
+    );
+    setFiles((current) => {
+      const known = new Set(current.map((file) => `${file.name}-${file.size}`));
+      return [
+        ...current,
+        ...allowed.filter((file) => !known.has(`${file.name}-${file.size}`)),
+      ];
+    });
+  }
+
+  function handleDrop(event) {
+    event.preventDefault();
+    setIsDragging(false);
+    pickFiles(event.dataTransfer.files);
+  }
+
+  function closeSettingsModal() {
+    setSettingsOpen(false);
+    setIsDragging(false);
+  }
+
+  function formatFileSize(size) {
+    if (size < 1024 * 1024) return `${Math.max(1, Math.round(size / 1024))} KB`;
+    return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+  }
 
   return (
     <aside className="sidebar" role="navigation" aria-label={t("nav.aria")}>
@@ -52,15 +88,111 @@ export default function Sidebar({ t, lang, setLang, cost, user }) {
 
         <nav className="nav-links" aria-label={t("sections.aria")}>
           {links.map((link) => (
-            <a
+            <div
               key={link.key}
-              className={`nav-link ${link.active ? "active" : ""}`}
-              href="#"
-              aria-current={link.active ? "page" : undefined}
+              className={`nav-link-wrap ${link.icon === "settings" ? "settings-wrap" : ""}`}
             >
-              <span className={`nav-icon nav-icon-${link.icon}`} aria-hidden="true" />
-              {t(link.key)}
-            </a>
+              {link.icon === "settings" ? (
+                <>
+                  <button
+                    className={`nav-link nav-link-button ${settingsOpen ? "active" : ""}`}
+                    type="button"
+                    aria-expanded={settingsOpen}
+                    aria-controls="settings-upload-modal"
+                    onClick={() => setSettingsOpen(true)}
+                  >
+                    <span className={`nav-icon nav-icon-${link.icon}`} aria-hidden="true" />
+                    {t(link.key)}
+                  </button>
+
+                  {settingsOpen && (
+                    <div
+                      className="settings-modal-backdrop"
+                      role="presentation"
+                      onMouseDown={closeSettingsModal}
+                    >
+                      <div
+                        id="settings-upload-modal"
+                        className="settings-modal"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="settings-upload-title"
+                        onMouseDown={(event) => event.stopPropagation()}
+                      >
+                        <div className="settings-modal-header">
+                          <div>
+                            <h2 id="settings-upload-title" className="settings-modal-title">
+                              Upload source files
+                            </h2>
+                            <p className="settings-modal-subtitle">Add PDF or PPTX files.</p>
+                          </div>
+                          <button
+                            className="modal-close-button"
+                            type="button"
+                            aria-label="Close settings"
+                            onClick={closeSettingsModal}
+                          />
+                        </div>
+
+                        <div
+                          className={`drop-zone ${isDragging ? "dragging" : ""}`}
+                          onDragOver={(event) => {
+                            event.preventDefault();
+                            setIsDragging(true);
+                          }}
+                          onDragLeave={() => setIsDragging(false)}
+                          onDrop={handleDrop}
+                        >
+                          <span className="drop-icon" aria-hidden="true" />
+                          <span className="drop-title">Drop files here</span>
+                          <span className="drop-help">PDF or PPTX</span>
+                        </div>
+
+                        <button
+                          className="upload-button"
+                          type="button"
+                          onClick={() => fileInputRef.current?.click()}
+                        >
+                          Upload files
+                        </button>
+
+                        <input
+                          ref={fileInputRef}
+                          className="file-input"
+                          type="file"
+                          accept=".pdf,.pptx,application/pdf,application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                          multiple
+                          onChange={(event) => {
+                            pickFiles(event.target.files);
+                            event.target.value = "";
+                          }}
+                        />
+
+                        {files.length > 0 && (
+                          <div className="uploaded-files" aria-live="polite">
+                            {files.map((file) => (
+                              <div className="uploaded-file" key={`${file.name}-${file.size}`}>
+                                <span className="uploaded-file-name">{file.name}</span>
+                                <span className="uploaded-file-size">{formatFileSize(file.size)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <a
+                  className={`nav-link ${link.active ? "active" : ""}`}
+                  href="#"
+                  aria-current={link.active ? "page" : undefined}
+                >
+                  <span className={`nav-icon nav-icon-${link.icon}`} aria-hidden="true" />
+                  {t(link.key)}
+                </a>
+              )}
+            </div>
           ))}
         </nav>
 
