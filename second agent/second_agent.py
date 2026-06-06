@@ -13,6 +13,10 @@ load_dotenv()
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 DEFAULT_OPENROUTER_MODEL = "anthropic/claude-sonnet-4-6"
 MIN_MEANINGFUL_WORD_COUNT = 5
+DEFAULT_VALIDATION_STRICTNESS = 0.5
+MIN_VALIDATION_STRICTNESS = 0.25
+MAX_VALIDATION_STRICTNESS = 2.0
+
 QUESTION_KEYS_WITH_MINIMUM_DETAIL = {
     "topic",
     "target_audience",
@@ -48,24 +52,25 @@ class IntakeReply:
 
 class LLMClient:
     def __init__(self) -> None:
-        self.api_key = (os.getenv("OPENROUTER_API_KEY") or "").strip()
-        self.model = os.getenv("OPENROUTER_MODEL", DEFAULT_OPENROUTER_MODEL).strip()
+        self.model = DEFAULT_OPENROUTER_MODEL
 
-        if not self.api_key:
+        if "OPENROUTER_API_KEY" not in os.environ:
             raise LLMConfigurationError(
                 "Missing OPENROUTER_API_KEY. Export it before running, for example:\n"
                 'export OPENROUTER_API_KEY="your_openrouter_key"'
             )
 
-        if self.api_key in {"your_openrouter_key", "YOUR_OPENROUTER_KEY"}:
+        api_key = os.environ["OPENROUTER_API_KEY"]
+
+        if api_key in {"your_openrouter_key", "YOUR_OPENROUTER_KEY"}:
             raise LLMConfigurationError(
                 "OPENROUTER_API_KEY still contains the placeholder value. "
                 "Replace it with your real OpenRouter key."
             )
 
         self.client = OpenAI(
-            api_key=self.api_key,
-            base_url=OPENROUTER_BASE_URL,
+            api_key=api_key,
+            base_url="https://openrouter.ai/api/v1",
         )
 
     def chat(
@@ -79,7 +84,6 @@ class LLMClient:
             response = self.client.chat.completions.create(
                 model=self.model,
                 max_tokens=max_tokens,
-                temperature=temperature,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt},
@@ -111,10 +115,31 @@ def extract_json(text: str) -> dict:
         return json.loads(text[start : end + 1])
 
 
+def clamp_validation_strictness(value: float) -> float:
+    return max(MIN_VALIDATION_STRICTNESS, min(MAX_VALIDATION_STRICTNESS, value))
+
+
+def read_validation_strictness_from_env() -> float:
+    raw_value = os.getenv("VALIDATION_STRICTNESS")
+    if raw_value is None:
+        return DEFAULT_VALIDATION_STRICTNESS
+
+    try:
+        return clamp_validation_strictness(float(raw_value))
+    except ValueError:
+        return DEFAULT_VALIDATION_STRICTNESS
+
+
 class LLMSequentialIntakeAgent:
-    def __init__(self, llm: LLMClient, questions: list[Question]) -> None:
+    def __init__(
+        self,
+        llm: LLMClient,
+        questions: list[Question],
+        validation_strictness: float = DEFAULT_VALIDATION_STRICTNESS,
+    ) -> None:
         self.llm = llm
         self.questions = questions
+        self.validation_strictness = clamp_validation_strictness(validation_strictness)
         self.training_spec: dict[str, Any] = {}
 
     def run(
@@ -188,6 +213,9 @@ Return only the question text.
         if cheap_validation is not None:
             return cheap_validation
 
+        strictness_label = self.validation_strictness_label()
+        minimum_words = self.minimum_word_count(question)
+
         system_prompt = """
 You are a practical validation agent for a Maverx training deck intake flow.
 
@@ -199,6 +227,7 @@ Your job:
 - If rejected, ask a follow-up for the same question.
 - If accepted, normalize the answer.
 - Do not include examples in feedback unless the user has failed the same question 3 or more times.
+- Use the provided validation strictness to decide how much detail is enough.
 
 Return only valid JSON with exactly this structure:
 
@@ -243,14 +272,23 @@ User answer:
 Attempt number for this same question:
 {attempt_count}
 
+Validation strictness:
+- Coefficient: {self.validation_strictness:.2f}
+- Mode: {strictness_label}
+- Minimum meaningful words for this question: {minimum_words}
+- Lower strictness should accept short but usable answers.
+- Higher strictness should require concrete audience, context, tool, task, outcome, or timing details where relevant.
+
 Validation standards:
-- The answer must be specific enough to generate a professional training.
+- The answer must be specific enough for the current strictness level.
 - Reject generic answers like "AI", "employees", "everyone", "business", "training", or "understand it".
 - For knowledge level, normalize to exactly one of: beginner, intermediate, advanced.
 - For duration, normalize to an integer number of minutes.
 - For learning objective, accept practical phrasing if it names a concrete direction, skill, tool, or context.
 - For learning objective, do not reject solely because the wording uses "understand" or is not perfectly measurable.
 - For learning objective, normalize it into a concise outcome if the intent is clear.
+- In lenient mode, accept answers that are brief but still usable.
+- In strict mode, reject answers that do not name enough concrete context for a tailored deck.
 - If rejecting and attempt number is 1 or 2, ask one short clarification question without giving examples.
 - If rejecting and attempt number is 3 or more, you may give one short example.
 - Keep feedback_to_user friendly and short.
@@ -293,6 +331,42 @@ Validation standards:
 
         return None
 
+    def validation_strictness_label(self) -> str:
+        if self.validation_strictness < 0.75:
+            return "lenient"
+
+        if self.validation_strictness > 1.25:
+            return "strict"
+
+        return "balanced"
+
+    def minimum_word_count(self, question: Question) -> int:
+        if question.key not in QUESTION_KEYS_WITH_MINIMUM_DETAIL:
+            return 1
+
+        return max(1, round(MIN_MEANINGFUL_WORD_COUNT * self.validation_strictness))
+
+    def minimum_text_length(self) -> int:
+        return max(2, round(4 * self.validation_strictness))
+
+    def minimum_duration_minutes(self) -> int:
+        if self.validation_strictness < 0.75:
+            return 15
+
+        if self.validation_strictness > 1.25:
+            return 45
+
+        return 30
+
+    def maximum_duration_minutes(self) -> int:
+        if self.validation_strictness < 0.75:
+            return 600
+
+        if self.validation_strictness > 1.25:
+            return 360
+
+        return 480
+
     def has_minimum_detail(self, question: Question, answer: str) -> bool:
         if question.key not in QUESTION_KEYS_WITH_MINIMUM_DETAIL:
             return True
@@ -300,14 +374,22 @@ Validation standards:
         if question.key == "knowledge_level" and answer.strip().lower() in KNOWLEDGE_LEVEL_VALUES:
             return True
 
-        return len(answer.strip().split()) >= MIN_MEANINGFUL_WORD_COUNT
+        return len(answer.strip().split()) >= self.minimum_word_count(question)
 
     def normalize_knowledge_level(self, answer: str) -> str | None:
         lowered = answer.strip().lower()
 
+        if self.validation_strictness > 1.25:
+            return lowered if lowered in KNOWLEDGE_LEVEL_VALUES else None
+
         beginner_terms = {"beginner", "beginners", "basic", "new", "none", "no experience"}
         intermediate_terms = {"intermediate", "some experience", "medium"}
         advanced_terms = {"advanced", "expert", "experienced"}
+
+        if self.validation_strictness < 0.75:
+            beginner_terms = beginner_terms | {"starter", "entry", "entry level", "novice"}
+            intermediate_terms = intermediate_terms | {"average", "working knowledge"}
+            advanced_terms = advanced_terms | {"pro", "senior", "high"}
 
         if lowered in beginner_terms:
             return "beginner"
@@ -418,16 +500,22 @@ Validation standards:
             except (TypeError, ValueError):
                 return self.reject("Please give the duration clearly, for example: 3 hours or 180 minutes.")
 
-            if value < 30:
-                return self.reject("The duration seems too short for a complete training. Please give at least 30 minutes.")
+            minimum_duration = self.minimum_duration_minutes()
+            if value < minimum_duration:
+                return self.reject(
+                    f"The duration seems too short for a complete training. Please give at least {minimum_duration} minutes."
+                )
 
-            if value > 480:
-                return self.reject("For Tier 1, keep it to one training session, ideally under 8 hours.")
+            maximum_duration = self.maximum_duration_minutes()
+            if value > maximum_duration:
+                return self.reject(
+                    f"For Tier 1, keep it to one training session, ideally under {maximum_duration // 60} hours."
+                )
 
             validation["normalized_value"] = value
 
         if question.key in {"topic", "target_audience", "primary_learning_objective"}:
-            if not isinstance(value, str) or len(value.strip()) < 4:
+            if not isinstance(value, str) or len(value.strip()) < self.minimum_text_length():
                 return self.reject("Please make your answer more specific.")
 
         if not self.has_minimum_detail(question, str(value)):
@@ -596,8 +684,17 @@ def create_intake_chat_session(
     on_complete: Callable[[dict[str, Any]], None] | None = None,
     output_path: str = DEFAULT_OUTPUT_PATH,
     persist_on_complete: bool = False,
+    validation_strictness: float | None = None,
 ) -> IntakeChatSession:
-    agent = LLMSequentialIntakeAgent(llm or LLMClient(), build_questions())
+    agent = LLMSequentialIntakeAgent(
+        llm or LLMClient(),
+        build_questions(),
+        validation_strictness=(
+            read_validation_strictness_from_env()
+            if validation_strictness is None
+            else validation_strictness
+        ),
+    )
     return IntakeChatSession(
         agent=agent,
         on_complete=on_complete,
@@ -652,7 +749,11 @@ def build_questions() -> list[Question]:
 if __name__ == "__main__":
     try:
         llm = LLMClient()
-        agent = LLMSequentialIntakeAgent(llm, build_questions())
+        agent = LLMSequentialIntakeAgent(
+            llm,
+            build_questions(),
+            validation_strictness=read_validation_strictness_from_env(),
+        )
         final_spec = agent.run(on_complete=handle_completed_training_spec)
     except (LLMConfigurationError, LLMRequestError) as error:
         raise SystemExit(f"\n{error}\n") from error
