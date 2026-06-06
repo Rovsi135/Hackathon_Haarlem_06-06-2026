@@ -50,14 +50,16 @@ export default function App() {
   const [cost, setCost] = useState(() => api.getCost());
   const [busy, setBusy] = useState(false);
 
-  // SlideKick's intro greeting (in the current language) on first mount.
+  // SlideKick's intro greeting is stored as a key so language switches update it.
   useEffect(() => {
-    setMessages([{ role: "assistant", text: t("assistant.intro") }]);
+    setMessages([{ role: "assistant", key: "assistant.intro" }]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // -- small helpers -------------------------------------------------------
-  const addMessage = (role, text) => setMessages((m) => [...m, { role, text }]);
+  const addMessage = (role, text, meta = {}) => setMessages((m) => [...m, { role, text, ...meta }]);
+  const addTranslatedMessage = (role, key, params, meta = {}) =>
+    setMessages((m) => [...m, { role, key, params, ...meta }]);
   const refreshCost = () => setCost(api.getCost());
 
   async function pollBlock(jobId) {
@@ -71,29 +73,44 @@ export default function App() {
   }
 
   // -- intake --------------------------------------------------------------
-  async function handleSend(value) {
-    addMessage("user", value);
+  async function handleSend(value, displayKey) {
+    const currentStep = step;
+    if (displayKey) {
+      addTranslatedMessage("user", displayKey, undefined, { intakeStep: currentStep });
+    } else {
+      addMessage("user", value, { intakeStep: currentStep });
+    }
     setInput("");
     setBusy(true);
     try {
-      const res = await api.validateIntake({ value, step, lang });
+      const res = await api.validateIntake({ value, step: currentStep, lang });
       refreshCost();
       if (!res.valid) {
-        addMessage("assistant", res.followUp);
+        addMessage("assistant", res.followUp, { intakeStep: currentStep });
         return;
       }
-      setAnswers((a) => ({ ...a, [ANSWER_KEYS[step]]: res.normalized }));
-      if (step < ANSWER_KEYS.length - 1) {
-        setStep(step + 1);
+      setAnswers((a) => ({ ...a, [ANSWER_KEYS[currentStep]]: res.normalized }));
+      if (currentStep < ANSWER_KEYS.length - 1) {
+        setStep(currentStep + 1);
       } else {
         setPhase("outline_path");
-        addMessage("assistant", t("phase.outline_path"));
+        addTranslatedMessage("assistant", "phase.outline_path");
       }
     } catch (err) {
       addMessage("error", String(err.message || err));
     } finally {
       setBusy(false);
     }
+  }
+
+  function handleIntakeBack() {
+    if (busy || step === 0) return;
+    const previousStep = step - 1;
+    setStep(previousStep);
+    setInput(answers[ANSWER_KEYS[previousStep]] || "");
+    setMessages((items) =>
+      items.filter((message) => message.intakeStep == null || message.intakeStep < previousStep)
+    );
   }
 
   // -- outline -------------------------------------------------------------
@@ -117,9 +134,9 @@ export default function App() {
   }
 
   async function handleChooseOutlinePath(pathId) {
-    addMessage("user", t(`intake.option.${pathId}`));
+    addTranslatedMessage("user", `intake.option.${pathId}`);
     await loadOutline();
-    addMessage("assistant", t("outline.subtitle"));
+    addTranslatedMessage("assistant", "outline.subtitle");
   }
 
   async function handleRegenerateOutline() {
@@ -142,19 +159,19 @@ export default function App() {
   }
 
   async function handleApproveOutline() {
-    addMessage("user", t("outline.approve"));
+    addTranslatedMessage("user", "outline.approve");
     await enterBlockProposal(0);
   }
 
   async function handleAdjustBlock() {
-    addMessage("user", t("proposal.adjust"));
+    addTranslatedMessage("user", "proposal.adjust");
     await enterBlockProposal(currentBlockIndex);
   }
 
   async function handleApproveBlock() {
     const idx = currentBlockIndex;
     const block = outline[idx];
-    addMessage("user", t("proposal.approve"));
+    addTranslatedMessage("user", "proposal.approve");
     setBlocks((b) => ({ ...b, [block.block_id]: { ...b[block.block_id], status: "generating" } }));
     setPhase("block_generating");
     setBusy(true);
@@ -206,7 +223,7 @@ export default function App() {
     setPhase("intake");
     setStep(0);
     setAnswers({});
-    setMessages([{ role: "assistant", text: t("assistant.intro") }]);
+    setMessages([{ role: "assistant", key: "assistant.intro" }]);
     setInput("");
     setOutline([]);
     setBlocks({});
@@ -273,6 +290,7 @@ export default function App() {
           input={input}
           setInput={setInput}
           onSend={handleSend}
+          onBack={handleIntakeBack}
           onChooseOutlinePath={handleChooseOutlinePath}
           onApproveOutline={handleApproveOutline}
           onRegenerateOutline={handleRegenerateOutline}
