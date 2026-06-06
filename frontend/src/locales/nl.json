@@ -1,0 +1,103 @@
+{
+  "app.title": "Maverx AI Training Builder",
+
+  "nav.getting_started": "Aan de slag",
+  "nav.support": "Ondersteuning",
+  "nav.settings": "Instellingen",
+
+  "profile.role": "Trainer",
+
+  "lang.en": "EN",
+  "lang.nl": "NL",
+
+  "cost.label": "Kosten run",
+  "cost.sub": "{tokens} tokens · {model}",
+
+  "stage.title": "Maak van één zin een complete training",
+  "stage.subtitle": "Beantwoord een paar korte vragen en SlideKick bouwt een gestructureerde, bewerkbare PowerPoint in de Maverx-huisstijl — inclusief spreker-notities, pre-bite en post-bite.",
+
+  "assistant.name": "SlideKick",
+  "assistant.intro": "Hoi, ik ben SlideKick. Ik stel een paar korte vragen zodat de slides aansluiten op je onderwerp, doelgroep, tijd en leerdoel.",
+
+  "phase.intake": "Intake · vraag {step} van {total}",
+  "phase.outline_path": "Kies hoe we de outline maken",
+  "phase.outline_review": "Bekijk de voorgestelde outline",
+  "phase.block_proposal": "Blok {step} van {total} · voorstel",
+  "phase.block_generating": "Blok {step} van {total} wordt gebouwd…",
+  "phase.review": "Bekijk je deck",
+  "phase.done": "Je training is klaar",
+
+  "intake.question.0.title": "Wat is het onderwerp of de vaardigheid die getraind wordt?",
+  "intake.question.0.help": "Wees specifiek — bijv. \"Prompt engineering voor marketing\", niet alleen \"AI\".",
+  "intake.question.1.title": "Wie is de doelgroep?",
+  "intake.question.1.help": "Noem een concrete rol of team — bijv. \"Marketingteam\", \"HR-managers\".",
+  "intake.question.2.title": "Wat is het kennisniveau van de deelnemers?",
+  "intake.question.2.help": "Beginner, gemiddeld of gevorderd.",
+  "intake.question.3.title": "Hoe lang duurt de training?",
+  "intake.question.3.help": "Bijvoorbeeld: 90 minuten, 3 uur, halve dag.",
+  "intake.question.4.title": "Wat is het belangrijkste leerdoel?",
+  "intake.question.4.help": "Maak het meetbaar — \"Aan het eind kunnen deelnemers …\".",
+
+  "intake.placeholder": "Typ je antwoord…",
+  "intake.level.beginner": "Beginner",
+  "intake.level.intermediate": "Gemiddeld",
+  "intake.level.advanced": "Gevorderd",
+  "intake.send": "Verstuur",
+  "intake.hint": "Druk op Enter om te versturen · Shift+Enter voor een nieuwe regel",
+
+  "intake.option.supply_outline": "Ik lever mijn eigen outline aan",
+  "intake.option.supply_outline.desc": "Plak of typ je trainingsstructuur en SlideKick bouwt erop voort.",
+  "intake.option.ai_outline": "Laat SlideKick een outline onderzoeken",
+  "intake.option.ai_outline.desc": "De onderzoeksagent verzamelt input over je onderwerp en stelt een outline voor om te beoordelen.",
+
+  "chip.prompt_engineering": "Prompt Engineering",
+  "chip.ai_literacy": "AI-geletterdheid",
+  "chip.ai_productivity": "AI voor Productiviteit",
+  "chip.responsible_ai": "Verantwoorde AI",
+
+  "outline.title": "Voorgestelde outline",
+  "outline.subtitle": "Volgens het Maverx didactisch model. Keur goed om blok voor blok slides te genereren.",
+  "outline.approve": "Outline goedkeuren",
+  "outline.regenerate": "Opnieuw genereren",
+  "outline.estimate": "~{count} slides",
+
+  "proposal.title": "Zo ga ik dit blok bouwen",
+  "proposal.slides": "{count} slides",
+  "proposal.keypoints": "Kernpunten",
+  "proposal.approve": "Bouw dit blok",
+  "proposal.adjust": "Aanpassen",
+
+  "generating.label": "Slides genereren voor {block}…",
+
+  "review.title": "Bekijk je deck",
+  "review.subtitle": "Controleer de betrouwbaarheidsindicator per slide — lagere scores verdienen extra aandacht voor je presenteert.",
+  "action.generate_deck": "Genereer trainingsdeck",
+  "review.regenerate_slide": "Slide opnieuw genereren",
+
+  "confidence.label": "Betrouwbaarheid",
+  "confidence.high": "Hoge betrouwbaarheid",
+  "confidence.medium": "Controle aanbevolen",
+  "confidence.low": "Controle nodig",
+
+  "notes.title": "Spreker-notities",
+  "notes.placeholder": "Spreker-notities voor de geselecteerde slide verschijnen hier.",
+  "notes.aim": "Doel",
+  "notes.time": "Tijd",
+  "notes.instructions": "Instructies",
+  "notes.reflective_question": "Belangrijke discussiepunten",
+  "notes.debrief": "Debrief & samenvatting",
+
+  "done.title": "Je training is klaar",
+  "done.subtitle": "Een complete, bewerkbare PowerPoint plus pre-bite en post-bite documenten — in het {lang}.",
+  "done.download": "Download bundel",
+  "done.restart": "Start een nieuwe training",
+  "bundle.pptx": "Trainingsdeck (.pptx)",
+  "bundle.prebite": "Pre-bite (.docx)",
+  "bundle.postbite": "Post-bite (.docx)",
+
+  "block.kickoff": "Opening / Kick-off",
+  "block.theory": "Theorie",
+  "block.example": "Voorbeeld",
+  "block.exercise": "Oefening",
+  "block.wrapup": "Afsluiting"
+}

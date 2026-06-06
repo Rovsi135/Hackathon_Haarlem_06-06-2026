@@ -1,0 +1,103 @@
+{
+  "app.title": "Maverx AI Training Builder",
+
+  "nav.getting_started": "Getting Started",
+  "nav.support": "Support",
+  "nav.settings": "Settings",
+
+  "profile.role": "Trainer",
+
+  "lang.en": "EN",
+  "lang.nl": "NL",
+
+  "cost.label": "Run cost",
+  "cost.sub": "{tokens} tokens · {model}",
+
+  "stage.title": "Turn one sentence into a full training deck",
+  "stage.subtitle": "Answer a few short questions and SlideKick builds a structured, editable PowerPoint in Maverx house style — with speaker notes, pre-bite and post-bite.",
+
+  "assistant.name": "SlideKick",
+  "assistant.intro": "Hi, I am SlideKick. I will ask a few short questions so the slides match your topic, audience, timing and learning goal.",
+
+  "phase.intake": "Intake · question {step} of {total}",
+  "phase.outline_path": "Choose how to build the outline",
+  "phase.outline_review": "Review the proposed outline",
+  "phase.block_proposal": "Block {step} of {total} · proposal",
+  "phase.block_generating": "Building block {step} of {total}…",
+  "phase.review": "Review your deck",
+  "phase.done": "Your training is ready",
+
+  "intake.question.0.title": "What is the topic or skill to be trained?",
+  "intake.question.0.help": "Be specific — e.g. \"Prompt engineering for marketing\", not just \"AI\".",
+  "intake.question.1.title": "Who is the target audience?",
+  "intake.question.1.help": "Name a concrete role or team — e.g. \"Marketing team\", \"HR managers\".",
+  "intake.question.2.title": "What is the knowledge level of participants?",
+  "intake.question.2.help": "Beginner, intermediate or advanced.",
+  "intake.question.3.title": "How long is the training?",
+  "intake.question.3.help": "For example: 90 minutes, 3 hours, half day.",
+  "intake.question.4.title": "What is the primary learning objective?",
+  "intake.question.4.help": "Make it measurable — \"By the end, participants can …\".",
+
+  "intake.placeholder": "Type your answer…",
+  "intake.level.beginner": "Beginner",
+  "intake.level.intermediate": "Intermediate",
+  "intake.level.advanced": "Advanced",
+  "intake.send": "Send",
+  "intake.hint": "Press Enter to send · Shift+Enter for a new line",
+
+  "intake.option.supply_outline": "I'll supply my own outline",
+  "intake.option.supply_outline.desc": "Paste or type your training structure and SlideKick builds on it.",
+  "intake.option.ai_outline": "Let SlideKick research an outline",
+  "intake.option.ai_outline.desc": "The research agent gathers input on your topic and proposes an outline to review.",
+
+  "chip.prompt_engineering": "Prompt Engineering",
+  "chip.ai_literacy": "AI Literacy",
+  "chip.ai_productivity": "AI for Productivity",
+  "chip.responsible_ai": "Responsible AI",
+
+  "outline.title": "Proposed outline",
+  "outline.subtitle": "Following the Maverx didactic model. Approve to start generating slides block by block.",
+  "outline.approve": "Approve outline",
+  "outline.regenerate": "Regenerate",
+  "outline.estimate": "~{count} slides",
+
+  "proposal.title": "Here's how I'll build this block",
+  "proposal.slides": "{count} slides",
+  "proposal.keypoints": "Key points",
+  "proposal.approve": "Build this block",
+  "proposal.adjust": "Adjust",
+
+  "generating.label": "Generating slides for {block}…",
+
+  "review.title": "Review your deck",
+  "review.subtitle": "Check the confidence indicator on each slide — lower scores need a closer look before you present.",
+  "action.generate_deck": "Generate Training Deck",
+  "review.regenerate_slide": "Regenerate slide",
+
+  "confidence.label": "Confidence",
+  "confidence.high": "High confidence",
+  "confidence.medium": "Review suggested",
+  "confidence.low": "Needs review",
+
+  "notes.title": "Speaker notes",
+  "notes.placeholder": "Speaker notes for the selected slide will appear here.",
+  "notes.aim": "Aim",
+  "notes.time": "Time",
+  "notes.instructions": "Instructions",
+  "notes.reflective_question": "Key discussion points",
+  "notes.debrief": "Debrief & summary",
+
+  "done.title": "Your training is ready",
+  "done.subtitle": "A complete, editable PowerPoint plus pre-bite and post-bite documents — in {lang}.",
+  "done.download": "Download bundle",
+  "done.restart": "Start a new training",
+  "bundle.pptx": "Training deck (.pptx)",
+  "bundle.prebite": "Pre-bite (.docx)",
+  "bundle.postbite": "Post-bite (.docx)",
+
+  "block.kickoff": "Opening / Kick-off",
+  "block.theory": "Theory",
+  "block.example": "Example",
+  "block.exercise": "Exercise",
+  "block.wrapup": "Wrap-up / Closing"
+}
